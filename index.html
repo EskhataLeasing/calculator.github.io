@@ -66,7 +66,7 @@ body{background:#fff;padding:0}
 .client-btn,
 .pdf-btn,
 .lang-switch{display:none!important}
-.logo{height:40px}
+.logo{height:45px}
 h1{font-size:22px}
 table{font-size:12px}
 th,td{padding:6px}
@@ -95,7 +95,7 @@ th,td{padding:6px}
 <div class="input-section">
 <div class="input-group">
 <label data-i18n="price">Стоимость объекта</label>
-<div class="currency-input.input{padding-left:15px}">
+<div class="currency-input">
 <input type="text" id="price" value="000"></div>
 </div>
 
@@ -338,10 +338,10 @@ outInsPct.textContent=(INS_RATE*100).toFixed(2).replace('.',',')+'%';
 function toggleClient(){
 document.documentElement.classList.toggle('client');
 }
-
+  
 document.querySelectorAll('.currency-input input').forEach(i=>{
   i.addEventListener('input',()=>{
-    let v = n(i.value);
+    const v = n(i.value);
     if(v || i.value === '0'){
       i.value = v.toLocaleString('ru-RU');
     }
