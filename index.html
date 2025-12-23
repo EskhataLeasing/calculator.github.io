@@ -339,6 +339,9 @@ outMarginPct.textContent=(MARGIN_RATE*100).toFixed(2).replace('.',',')+'%';
 outIns.textContent = f(insurance);
 outInsPct.textContent = (insRate * 100).toFixed(2).replace('.', ',') + '%';
 
+
+build();
+
 function toggleClient(){
 document.documentElement.classList.toggle('client');
 }
@@ -351,8 +354,6 @@ document.querySelectorAll('.currency-input input').forEach(i=>{
     }
   });
 });
-
-build();
 </script>
 </body>
 </html>
