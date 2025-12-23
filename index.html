@@ -174,7 +174,6 @@ th,td{padding:6px}
 const REG=876736;
 const RATE=0.2975/12;
 const MARGIN_RATE=0.035;
-const INS_RATE=0.0024;
 
 const i18n={
 ru:{title:"Калькулятор",price:"Стоимость объекта",advance:"Аванс (%)",term:"Срок (мес.)",
@@ -207,6 +206,11 @@ localStorage.setItem('lang',l);
 }
 document.querySelectorAll('.lang-switch span').forEach(s=>s.onclick=()=>setLang(s.dataset.lang));
 setLang(localStorage.getItem('lang')||'ru');
+
+function insuranceRateSpecial(termMonths){
+  const BASE_RATE = 0.0008;
+  return termMonths * BASE_RATE / 12;
+}
 
 function n(v){return parseFloat(String(v).replace(/\s|\u00A0/g,'').replace(',','.'))||0}
 function f(x){x=Math.round(x*100)/100;let p=x.toString().split('.');p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,' ');return p.length===1?p[0]+'.00':p[1].length===1?p[0]+'.'+p[1]+'0':p.join('.')}
@@ -300,7 +304,8 @@ let total=P+REG;
 let adv=total*A;
 let lease=total-adv;
 let margin=total*MARGIN_RATE;
-let insurance=total*INS_RATE;
+let insRate = insuranceRateSpecial(T);
+let insurance = lease * insRate;
 
 let sch=[];
 switch(type.value){
@@ -331,9 +336,8 @@ outOver.textContent=f(over);
 outTotal.textContent=f(lease+over);
 outMargin.textContent=f(margin);
 outMarginPct.textContent=(MARGIN_RATE*100).toFixed(2).replace('.',',')+'%';
-outIns.textContent=f(insurance);
-outInsPct.textContent=(INS_RATE*100).toFixed(2).replace('.',',')+'%';
-}
+outIns.textContent = f(insurance);
+outInsPct.textContent = (insRate * 100).toFixed(2).replace('.', ',') + '%';
 
 function toggleClient(){
 document.documentElement.classList.toggle('client');
