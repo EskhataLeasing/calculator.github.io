@@ -58,54 +58,59 @@ tbody tr:nth-child(even){background:#fafafa}
 .client .lang-switch{display:none}
 .client .container{box-shadow:none}
 
-@media print {
-  body {
-    background: #fff;
-    padding: 0;
+@media print{
+  body{
+    background:#fff;
+    padding:0;
   }
 
-  .container {
-    box-shadow: none;
-    margin: 0;
-    padding: 0;
-    max-width: 100%;
+  .container{
+    box-shadow:none;
+    margin:0;
+    padding:0;
+    max-width:100%;
   }
 
   .input-section,
   .calculate-btn,
   .client-btn,
   .pdf-btn,
-  .lang-switch {
-    display: none !important;
+  .lang-switch{
+    display:none!important;
   }
 
-  /* 🔑 КЛЮЧЕВОЙ МОМЕНТ */
-  .scale-wrap {
-    transform: scale(0.75);
+  /* 🔑 ВОТ ОН — ТОТ САМЫЙ МЕХАНИЗМ */
+  .scale-wrap{
+    transform: scale(0.72);
     transform-origin: top center;
-    width: 133%;
+    width: 138%;
   }
 
-  h1 {
-    font-size: 20px;
+  .logo{
+    height:40px;
   }
 
-  table {
-    font-size: 11px;
+  h1{
+    font-size:20px;
   }
 
-  th, td {
-    padding: 5px;
+  table{
+    font-size:11px;
   }
 
-  .summary-section {
-    margin-bottom: 12px;
+  th,td{
+    padding:5px;
   }
 
-  .summary-value {
-    font-size: 18px;
+  .summary-section{
+    margin-bottom:12px;
+  }
+
+  .summary-value{
+    font-size:18px;
   }
 }
+
 
 
 </style>
