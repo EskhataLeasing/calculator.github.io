@@ -58,19 +58,32 @@ tbody tr:nth-child(even){background:#fafafa}
 .client .lang-switch{display:none}
 .client .container{box-shadow:none}
 
-@media print{
-body{background:#fff;padding:0}
-.container{box-shadow:none;margin:0;padding:20px;max-width:100%}
-.input-section,
-.calculate-btn,
-.client-btn,
-.pdf-btn,
-.lang-switch{display:none!important}
-.logo{height:45px}
-h1{font-size:22px}
-table{font-size:12px}
-th,td{padding:6px}
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  html, body {
+    width: 210mm;
+    height: 297mm;
+    overflow: hidden;
+  }
+
+  .scale-wrap {
+    transform-origin: top center;
+  }
+
+  table, tr, td, th {
+    page-break-inside: avoid !important;
+  }
+
+  .results-container,
+  .summary-section {
+    page-break-inside: avoid;
+  }
 }
+
 </style>
 </head>
 
@@ -342,6 +355,26 @@ outInsPct.textContent = (insRate * 100).toFixed(2).replace('.', ',') + '%';
 }
 
 build();
+function fitToOnePagePrint() {
+  const wrap = document.querySelector('.scale-wrap');
+  if (!wrap) return;
+
+  wrap.style.transform = 'scale(1)';
+
+  const pageHeightPx = 1122; // ~ A4 при 96dpi
+  const rect = wrap.getBoundingClientRect();
+
+  if (rect.height > pageHeightPx) {
+    const scale = pageHeightPx / rect.height;
+    wrap.style.transform = `scale(${scale})`;
+  }
+}
+
+window.addEventListener('beforeprint', fitToOnePagePrint);
+window.addEventListener('afterprint', () => {
+  const wrap = document.querySelector('.scale-wrap');
+  if (wrap) wrap.style.transform = 'scale(1)';
+});
 
 function toggleClient(){
 document.documentElement.classList.toggle('client');
