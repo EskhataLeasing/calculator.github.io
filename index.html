@@ -64,18 +64,6 @@ tbody tr:nth-child(even){background:#fafafa}
     size: A4 portrait;
     margin: 3mm;
   }
-  .header {
-  margin-bottom: 10px !important;
-}
-
-.summary-section {
-  margin-bottom: 12px !important;
-  padding: 14px !important;
-}
-
-.results-container {
-  padding: 12px !important;
-}
 
   html, body {
     width: 210mm;
@@ -84,33 +72,40 @@ tbody tr:nth-child(even){background:#fafafa}
   }
 
   body {
-    display: block !important;
-    padding: 0 !important;
+    background: #fff !important;
   }
 
   .container {
-    width: 100% !important;
-    max-width: none !important;
+    box-shadow: none !important;
     margin: 0 !important;
     padding: 0 !important;
+    max-width: none !important;
   }
 
-   .scale-wrap {
-    transform: scale(0.87);
+  .scale-wrap {
+    transform: scale(0.82);
     transform-origin: top center;
   }
-}
-  /* запрещаем перенос таблицы */
-  table, tr, td, th {
-    page-break-inside: avoid !important;
+
+  .header {
+    margin-bottom: 10px !important;
   }
 
+  .summary-section {
+    margin-bottom: 12px !important;
+    padding: 14px !important;
+  }
+
+  .results-container {
+    padding: 12px !important;
+  }
+
+  table, tr, td, th,
   .results-container,
   .summary-section {
     page-break-inside: avoid !important;
   }
 
-  /* скрываем ввод */
   .input-section,
   .calculate-btn,
   .client-btn,
@@ -118,9 +113,7 @@ tbody tr:nth-child(even){background:#fafafa}
   .lang-switch {
     display: none !important;
   }
-
 }
-
 
 
 </style>
