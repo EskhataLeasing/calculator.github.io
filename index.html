@@ -62,7 +62,7 @@ tbody tr:nth-child(even){background:#fafafa}
 
   @page {
     size: A4 portrait;
-    margin: 2mm;
+    margin: 3mm;
   }
   .header {
   margin-bottom: 10px !important;
@@ -84,23 +84,22 @@ tbody tr:nth-child(even){background:#fafafa}
   }
 
   body {
-    background: #fff !important;
+    display: block !important;
+    padding: 0 !important;
   }
 
   .container {
-    box-shadow: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
     width: 100% !important;
     max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
-  /* 🔑 ВАЖНО: масштабируем ВСЁ */
-  .scale-wrap {
-    transform: scale(0.82);
+   .scale-wrap {
+    transform: scale(0.87);
     transform-origin: top center;
   }
-
+}
   /* запрещаем перенос таблицы */
   table, tr, td, th {
     page-break-inside: avoid !important;
