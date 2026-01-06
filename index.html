@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-i18n="title">Калькулятор</title>
 <link rel="icon" type="image/png" href="favicon.png">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
 body{background:linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
@@ -57,6 +58,55 @@ tbody tr:nth-child(even){background:#fafafa}
 .client .client-btn,
 .client .lang-switch{display:none}
 .client .container{box-shadow:none}
+.client-actions{
+  display:none;
+  padding:16px;
+  border:none;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:600;
+  cursor:pointer;
+  margin-right:10px;
+  background:#e9ecef;
+  color:#2c3e50;
+}
+.client-back-btn{
+  padding:16px;
+  border:none;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:600;
+  cursor:pointer;
+  margin-right:10px;
+  background:#e9ecef;
+  color:#2c3e50;
+}
+
+.client-back-btn:hover{
+  background:#dee2e6;
+}
+
+.client .client-actions{
+  display:block;
+}
+
+.footer{
+  margin-top:30px;
+  width:100%;
+  text-align:center;
+  font-size:13px;
+  color:#6c757d;
+}
+
+.footer a{
+  color:#6c757d;
+  text-decoration:none;
+}
+
+.footer a:hover{
+  text-decoration:underline;
+}
+
 
 @media print {
 
@@ -69,6 +119,10 @@ tbody tr:nth-child(even){background:#fafafa}
     width: 210mm;
     height: 297mm;
     overflow: hidden;
+  }
+
+  .client-actions{
+    display:none !important;
   }
 
   body {
@@ -134,10 +188,24 @@ tbody tr:nth-child(even){background:#fafafa}
     <span data-lang="en">ENG</span>
   </div>
 </div>
+<div class="client-actions">
+  <button class="client-back-btn" onclick="exitClient()" data-i18n="back">
+    ← Назад
+  </button>
+  <button class="pdf-btn" onclick="window.print()" data-i18n="pdf">
+    PDF / Печать
+  </button>
+</div>
 
 <div class="calculator-section">
 
 <div class="input-section">
+<div class="input-group">
+  <label data-i18n="object">Описание объекта</label>
+  <div class ="currency-input">
+  <input type="text" id="objectName" value=""></div>
+</div>
+  
 <div class="input-group">
 <label data-i18n="price">Стоимость объекта</label>
 <div class="currency-input">
@@ -176,14 +244,20 @@ tbody tr:nth-child(even){background:#fafafa}
 <div class="output-section">
 <div class="summary-section">
 <div class="summary-grid">
+<div class="summary-item"><div class="summary-label" data-i18n="object">Объект</div><div class="summary-value" id="outObject">—</div></div>
 <div class="summary-item"><div class="summary-label" data-i18n="lease">Долг лизинга</div><div class="summary-value" id="outLease">0</div></div>
 <div class="summary-item"><div class="summary-label" data-i18n="adv">Аванс</div><div class="summary-value" id="outAdvance">0</div></div>
 <div class="summary-item"><div class="summary-label" data-i18n="over">Процент лизинговой компании</div><div class="summary-value" id="outOver">0</div></div>
 <div class="summary-item"><div class="summary-label" data-i18n="total">Общая сумма оплаты</div><div class="summary-value" id="outTotal">0</div></div>
+<div class="summary-item"><div class="summary-label" data-i18n="full">Полная стоимость объекта</div><div class="summary-value" id="outFull">0</div></div>
 <div class="summary-item">
   <div class="summary-label" data-i18n="margin">Единоразовая маржа</div>
   <div class="summary-value" id="outMargin">0</div>
   <div class="summary-sub" id="outMarginPct"></div>
+</div>
+<div class="summary-item">
+  <div class="summary-label">Flat rate</div>
+  <div class="summary-value" id="outFlat">0.00%</div>
 </div>
 <div class="summary-item">
   <div class="summary-label" data-i18n="ins">Страхование</div>
@@ -211,8 +285,17 @@ tbody tr:nth-child(even){background:#fafafa}
 </div>
 </div>
 </div>
-</div>
-
+  <div class="footer">
+    <div class="footer-company">Eskhata leasing</div>
+    <div class="footer-contacts">
+      <a href="tel:+998939901688">+998 93 990-16-88</a> ·
+      <a href="mailto:info@eskhata-leasing.uz">info@eskhata-leasing.uz</a> ·
+      <a href="https://eskhata-leasing.uz/ru" target="_blank">
+        www.eskhata-leasing.uz
+      </a> ·
+      <span>г.Ташкент, ул.Богибостон 186</span>
+    </div>
+  </div>
 
 <script>
 const REG=876736;
@@ -221,20 +304,20 @@ const MARGIN_RATE=0.035;
 
 const i18n={
 ru:{title:"Калькулятор",price:"Стоимость объекта",advance:"Аванс (%)",term:"Срок (мес.)",
-type:"Тип графика",calc:"Рассчитать",client:"Режим для клиента",pdf:"PDF / Печать",
-lease:"Долг лизинга",adv:"Аванс",over:"Переплата",total:"Общая сумма оплаты",margin:"Единоразовая маржа",ins:"Страхование",
+type:"Тип графика",back: "Назад", calc:"Рассчитать",full: "Полная стоимость объекта", client:"Режим для клиента",pdf:"PDF / Печать",
+lease:"Долг лизинга",object: "Описание объекта",adv:"Аванс",over:"Переплата",total:"Общая сумма оплаты",margin:"Единоразовая маржа",ins:"Страхование",
 m:"Месяц",p:"Общая сумма оплаты",pr:"Оплата основного долга",i:"Маржа",b:"Остаток",
 t_annuity:"Аннуитет",t_annuity_q:"Аннуитет (квартальный)",t_decl2:"Убывающий 2x",t_decl3:"Убывающий 3x",
 t_linear:"Линейный (квартальный)",t_inst_m:"Рассрочка ежемесячная",t_inst_q:"Рассрочка квартальная"},
-en:{title:"Calculator",price:"Asset price",advance:"Advance (%)",term:"Term (months)",
+en:{title:"Calculator",back: "Back", full: "Total asset cost",price:"Asset price",advance:"Advance (%)",term:"Term (months)",
 type:"Schedule type",calc:"Calculate",client:"Client mode",pdf:"PDF / Print",
-lease:"Lease balance",adv:"Advance",over:"Overpayment",total:"Total payment",margin:"One-time commission",ins:"Insurance",
+lease:"Lease balance",object: "Asset description",adv:"Advance",over:"Overpayment",total:"Total payment",margin:"One-time commission",ins:"Insurance",
 m:"Month",p:"Payment",pr:"Principal",i:"Margin",b:"Balance",
 t_annuity:"Annuity",t_annuity_q:"Quarterly annuity",t_decl2:"Declining 2x",t_decl3:"Declining 3x",
 t_linear:"Quarterly linear",t_inst_m:"Monthly installment",t_inst_q:"Quarterly installment"},
 uz:{title:"Kalkulyator",price:"Mol-mulk qiymati",advance:"Boshlang‘ich to‘lov (%)",term:"Muddati (oy)",
-type:"To‘lov jadvali",calc:"Hisoblash",client:"Mijoz rejimi",pdf:"PDF / Chop etish",
-lease:"Lizing qoldig‘i",adv:"Boshlang‘ich to‘lov",over:"Ortiqcha to‘lov",total:"Jami to‘lov",margin:"Bir martalik marja",ins:"Sug‘urta",
+type:"To‘lov jadvali",object: "Obyekt tavsifi",calc:"Hisoblash",client:"Mijoz rejimi",pdf:"PDF / Chop etish",
+lease:"Lizing qoldig‘i",back: "Orqaga",full: "Obyektning to‘liq qiymati",adv:"Boshlang‘ich to‘lov",over:"Ortiqcha to‘lov",total:"Jami to‘lov",margin:"Bir martalik marja",ins:"Sug‘urta",
 m:"Oy",p:"To‘lov",pr:"Asosiy qarz",i:"Marja",b:"Qoldiq",
 t_annuity:"Annuitet",t_annuity_q:"Annuitet (choraklik)",t_decl2:"Kamayuvchi 2x",t_decl3:"Kamayuvchi 3x",
 t_linear:"Chiziqli (choraklik)",t_inst_m:"Oylik bo‘lib to‘lash",t_inst_q:"Choraklik bo‘lib to‘lash"}
@@ -250,6 +333,11 @@ localStorage.setItem('lang',l);
 }
 document.querySelectorAll('.lang-switch span').forEach(s=>s.onclick=()=>setLang(s.dataset.lang));
 setLang(localStorage.getItem('lang')||'ru');
+
+function exitClient(){
+  document.documentElement.classList.remove('client');
+}
+
 
 function insuranceRateSpecial(termMonths){
   const BASE_RATE = 0.0008;
@@ -349,7 +437,7 @@ let adv=total*A;
 let lease=total-adv;
 let margin=total*MARGIN_RATE;
 let insRate = insuranceRateSpecial(T);
-let insurance = lease * insRate;
+let insurance = P * insRate;
 
 let sch=[];
 switch(type.value){
@@ -374,14 +462,26 @@ tbl.innerHTML+=`<tr>
 </tr>`;
 });
 
+let flatRate = 0;
+
+if (!type.value.includes('inst')) { // не рассрочка
+  if (lease > 0 && T > 0) {
+    flatRate = over / (lease * (T / 12));
+  }
+}
+
 outLease.textContent=f(lease);
 outAdvance.textContent=f(adv);
 outOver.textContent=f(over);
 outTotal.textContent=f(lease+over);
 outMargin.textContent=f(margin);
+outFull.textContent = f(adv + lease + over + margin);
 outMarginPct.textContent=(MARGIN_RATE*100).toFixed(2).replace('.',',')+'%';
 outIns.textContent = f(insurance);
 outInsPct.textContent = (insRate * 100).toFixed(2).replace('.', ',') + '%';
+outObject.textContent = objectName.value || "—";
+outFlat.textContent = (flatRate * 100).toFixed(2).replace('.', ',') + '%';
+
 
 }
 
