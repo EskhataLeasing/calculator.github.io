@@ -176,6 +176,7 @@ body.client-mode .client-summary-header{display:flex}
   .pd-logo-inner2{display:table-cell;vertical-align:middle;padding-left:10pt}
   .pd-logo-name{font-size:17pt;font-weight:700;color:#0f1923;line-height:1;letter-spacing:-.2pt;white-space:nowrap}
   .pd-logo-name em{color:#1a4fa0;font-style:normal;font-weight:400}
+  .pd-print-logo-img { height:36pt; width:auto; }
   /*
     Если используете картинку в печатном логотипе:
     .pd-print-logo-img { height:36pt; width:auto; }
@@ -245,12 +246,12 @@ body.client-mode .client-summary-header{display:flex}
     -->
 
     <!-- ВАРИАНТ А (fallback — круг с буквой): -->
-    <div class="logo-icon">Э</div>
+    <!--  <div class="logo-icon">Э</div>
 
     <!-- ВАРИАНТ Б (картинка логотип): -->
-    <!-- <img class="logo-img" src="logo.png" alt="Эсхата Leasing"> -->
+    <img class="logo-img" src="logo.png" alt="Eskhata Leasing">
 
-    Эсхата <span>Leasing</span>&nbsp; Калькулятор
+    Eskhata <span>Leasing</span>&nbsp;
   </a>
   <div class="lang-switcher">
     <a class="active" onclick="setLang('ru')">RU</a>
@@ -291,7 +292,7 @@ body.client-mode .client-summary-header{display:flex}
 
       <!-- Шапка в режиме для клиента -->
       <div class="client-summary-header">
-        <div class="logo-icon" style="width:42px;height:42px;font-size:21px">Э</div>
+        <img class="logo-img" src="logo.png" alt="Эсхата Leasing" style="height:42px">
         <!-- Или логотип картинкой: -->
         <!-- <img class="logo-img" src="logo.png" alt="Эсхата Leasing" style="height:42px"> -->
         <div>
@@ -353,7 +354,7 @@ body.client-mode .client-summary-header{display:flex}
           Вариант Б: картинка — замените SVG на:
           <img src="logo.png" style="height:36pt;width:auto;" alt="">
         -->
-        <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
+        <img src="logo.png" style="height:36pt;width:auto;" alt="">
           <circle cx="21" cy="21" r="21" fill="#1a4fa0"/>
           <text x="21" y="28" text-anchor="middle" fill="white" font-size="20"
                 font-family="Arial" font-weight="bold">Э</text>
