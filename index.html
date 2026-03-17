@@ -468,12 +468,12 @@ function parseVal(s){
   if(!s)return 0;
   return parseFloat(String(s).replace(/[^\d.]/g,''))||0;
 }
-function fmt(n,dec=2){
+function fmt(n,dec=0){
   if(n===null||n===undefined)return'—';
   return Number(n.toFixed(dec)).toLocaleString('ru-RU',{minimumFractionDigits:dec,maximumFractionDigits:dec});
 }
 function fmtPct(n){
-  return(n*100).toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
+  return(n*100).toLocaleString('ru-RU',{minimumFractionDigits:0,maximumFractionDigits:0})+'%';
 }
 
 /* ══════════════════════════════════
