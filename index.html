@@ -2,22 +2,13 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eskhata Leasing</title>
 
-<!--
-  ╔══════════════════════════════════════════════════════════╗
-  ║  FAVICON                                                 ║
-  ║  Замените "favicon.ico" на путь к вашему файлу.          ║
-  ║  Поддерживаются .ico, .png, .svg                         ║
-  ║  Пример: favicon.png                                     ║
-  ╚══════════════════════════════════════════════════════════╝
--->
 <link rel="icon" type="image/png" href="favicon.png">
-<!-- Если .ico формат: -->
-<!-- <link rel="icon" type="image/x-icon" href="favicon.ico"> -->
-<!-- Если SVG: -->
-<!-- <link rel="icon" type="image/svg+xml" href="favicon.svg"> -->
 
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -39,17 +30,6 @@ header{
   box-shadow:0 1px 8px rgba(26,79,160,.06);
 }
 
-/*
-  ══════════════════════════════════════════════════════════
-  ЛОГОТИП В ШАПКЕ (ЭКРАН)
-  .logo-icon — показывается если нет файла логотипа (fallback)
-  .logo-img  — показывается если логотип задан
-  Если хотите использовать картинку-логотип:
-    1. Раскомментируйте <img class="logo-img"> в HTML ниже
-    2. Закомментируйте <div class="logo-icon">
-    3. Укажите src="logo.png"
-  ══════════════════════════════════════════════════════════
-*/
 .logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800;color:var(--text);text-decoration:none}
 .logo-icon{width:36px;height:36px;background:var(--brand-blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:800;flex-shrink:0}
 .logo-img{height:36px;width:auto;object-fit:contain;flex-shrink:0}
@@ -140,14 +120,50 @@ body.client-mode .client-summary-header{display:flex}
 .print-title{font-size:18px;font-weight:800}
 .print-subtitle{font-size:12px;color:var(--muted);margin-top:2px}
 
-/* print doc hidden on screen — keep in DOM so window.print() can access it */
 #printDoc{position:absolute;left:-9999px;top:0;width:210mm;visibility:hidden;pointer-events:none}
+
+/* ══════════════════════════════════
+   MOBILE
+══════════════════════════════════ */
+@media (max-width:640px){
+  header{padding:0 16px;height:54px}
+  .logo{font-size:16px;gap:8px}
+  .logo-icon{width:30px;height:30px;font-size:15px}
+  .lang-switcher{gap:10px}
+  .lang-switcher a{font-size:12px}
+  main{padding:16px 12px 40px}
+  .calculator-grid{grid-template-columns:1fr!important;gap:16px}
+  .card{padding:18px 14px;border-radius:12px}
+  .form-group{margin-bottom:14px}
+  input[type=text],input[type=number]{font-size:16px;padding:10px 12px}
+  .btn{padding:12px;font-size:14px}
+  .results-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .cell-value{font-size:16px}
+  .cell-label{font-size:10px}
+  .internal-row{flex-direction:column;align-items:flex-start;gap:6px}
+  .internal-badge{align-self:flex-end}
+  .max-disc-input-row{flex-wrap:wrap;gap:6px}
+  .schedule-section .card{overflow-x:auto}
+  table{font-size:12px;min-width:260px}
+  thead th{padding:7px 8px;font-size:10px}
+  tbody td{padding:6px 8px}
+  tfoot td{padding:7px 8px}
+  .action-btns{flex-direction:column}
+  .btn-print,.btn-exit{width:100%;text-align:center}
+  .client-summary-header{flex-direction:row;gap:10px}
+  .print-title{font-size:15px}
+}
+
+@media (min-width:641px) and (max-width:860px){
+  .calculator-grid{grid-template-columns:1fr!important}
+  main{padding:24px 16px 50px}
+}
 
 /* ══════════════════════════════════
    PRINT
 ══════════════════════════════════ */
 @media print{
-  @page{size:A4 portrait;margin:14mm 16mm}
+  @page{size:A4 portrait;margin:8mm 10mm}
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   body>header,body>main,.action-btns{display:none!important}
   body{background:#fff;margin:0;padding:0}
@@ -160,64 +176,53 @@ body.client-mode .client-summary-header{display:flex}
     visibility:visible!important;
     width:100%;
     font-family:Arial,Helvetica,sans-serif;
-    font-size:9pt;
+    font-size:8pt;
     color:#000;
   }
 
-  /* ── Logo box ── */
   .pd-logo-box{
     display:table;
-    border:1.5pt solid #1a4fa0;
-    border-radius:5pt;
-    padding:7pt 14pt;
-    margin-bottom:14pt;
+    border:1pt solid #1a4fa0;
+    border-radius:4pt;
+    padding:4pt 10pt;
+    margin-bottom:6pt;
   }
   .pd-logo-inner{display:table-cell;vertical-align:middle}
-  .pd-logo-inner2{display:table-cell;vertical-align:middle;padding-left:10pt}
-  .pd-logo-name{font-size:17pt;font-weight:700;color:#0f1923;line-height:1;letter-spacing:-.2pt;white-space:nowrap}
+  .pd-logo-inner2{display:table-cell;vertical-align:middle;padding-left:7pt}
+  .pd-logo-name{font-size:13pt;font-weight:700;color:#0f1923;line-height:1;white-space:nowrap}
   .pd-logo-name em{color:#1a4fa0;font-style:normal;font-weight:400}
-  .pd-print-logo-img { height:36pt; width:auto; }
-  /*
-    Если используете картинку в печатном логотипе:
-    .pd-print-logo-img { height:36pt; width:auto; }
-  */
 
-  /* ── Top 2-row summary ── */
-  .pd-top{width:100%;border-collapse:collapse;margin-bottom:6pt;font-size:9pt}
-  .pd-top td{padding:5pt 8pt;border:0.5pt solid #b0bac8}
+  .pd-top{width:100%;border-collapse:collapse;margin-bottom:4pt;font-size:8pt}
+  .pd-top td{padding:3pt 6pt;border:0.5pt solid #b0bac8}
   .pt-lbl{color:#222;width:62%}
-  .pt-val{font-weight:700;text-align:right;font-size:9.5pt}
+  .pt-val{font-weight:700;text-align:right;font-size:8.5pt}
 
-  /* ── Conditions block ── */
-  .pd-cond{width:100%;border-collapse:collapse;margin-bottom:6pt;font-size:9pt}
-  .pd-cond-head td{background:#d0daea!important;font-weight:700;text-align:center;padding:4pt 8pt;border:0.5pt solid #b0bac8;font-size:9pt}
-  .pd-cond td{padding:4pt 8pt;border:0.5pt solid #b0bac8;vertical-align:middle}
+  .pd-cond{width:100%;border-collapse:collapse;margin-bottom:4pt;font-size:8pt}
+  .pd-cond-head td{background:#d0daea!important;font-weight:700;text-align:center;padding:3pt 6pt;border:0.5pt solid #b0bac8;font-size:8pt}
+  .pd-cond td{padding:3pt 6pt;border:0.5pt solid #b0bac8;vertical-align:middle}
   .pc-lbl{color:#222;width:52%}
-  .pc-mid{color:#555;font-size:8.5pt;text-align:center;width:10%}
+  .pc-mid{color:#555;font-size:7.5pt;text-align:center;width:10%}
   .pc-val{font-weight:700;text-align:right}
   .pd-cond .pc-alt td{background:#f0f3f9!important}
 
-  /* ── Signing amount ── */
-  .pd-sign{width:100%;border-collapse:collapse;margin-bottom:6pt;font-size:9pt}
-  .pd-sign td{padding:5pt 8pt;border:0.5pt solid #b0bac8}
+  .pd-sign{width:100%;border-collapse:collapse;margin-bottom:4pt;font-size:8pt}
+  .pd-sign td{padding:3pt 6pt;border:0.5pt solid #b0bac8}
   .ps-lbl{color:#222;font-weight:600;width:62%}
-  .ps-val{font-weight:700;text-align:right;font-size:9.5pt}
+  .ps-val{font-weight:700;text-align:right;font-size:8.5pt}
 
-  /* ── Debt row ── */
-  .pd-debt{width:100%;border-collapse:collapse;margin-bottom:14pt;font-size:9pt}
-  .pd-debt td{padding:5pt 8pt;border:0.5pt solid #b0bac8}
+  .pd-debt{width:100%;border-collapse:collapse;margin-bottom:6pt;font-size:8pt}
+  .pd-debt td{padding:3pt 6pt;border:0.5pt solid #b0bac8}
   .pdl{color:#222;width:62%}
   .pdv{font-weight:700;text-align:right}
 
-  /* ── Schedule ── */
   .pd-sched-wrap{border:0.5pt solid #b0bac8}
-  .pd-sched-hd{font-size:9pt;font-weight:700;text-align:center;padding:4pt;background:#eef2f8;border-bottom:0.5pt solid #b0bac8}
-  .pd-sched{width:100%;border-collapse:collapse;font-size:8.5pt}
+  .pd-sched-hd{font-size:8pt;font-weight:700;text-align:center;padding:3pt;background:#eef2f8;border-bottom:0.5pt solid #b0bac8}
+  .pd-sched{width:100%;border-collapse:collapse;font-size:7.5pt}
   .pd-sched thead tr{background:#fff}
-  .pd-sched thead th{color:#333;padding:4pt 6pt;text-align:center;font-weight:600;font-size:8.5pt;border-bottom:0.5pt solid #b0bac8;border-right:0.5pt solid #d0d8e8}
-  .pd-sched .sched-sub td{font-weight:700;text-align:right;padding:3pt 6pt;font-size:8.5pt;border-bottom:0.5pt solid #b0bac8;border-right:0.5pt solid #d0d8e8;background:#f8f9fc}
+  .pd-sched thead th{color:#333;padding:3pt 5pt;text-align:center;font-weight:600;font-size:7.5pt;border-bottom:0.5pt solid #b0bac8;border-right:0.5pt solid #d0d8e8}
+  .pd-sched .sched-sub td{font-weight:700;text-align:right;padding:2pt 5pt;font-size:7.5pt;border-bottom:0.5pt solid #b0bac8;border-right:0.5pt solid #d0d8e8;background:#f8f9fc}
   .pd-sched .sched-sub td:first-child{text-align:center}
-  .pd-sched tbody td{padding:2.5pt 6pt;border-bottom:0.5pt solid #e8ecf2;border-right:0.5pt solid #e8ecf2;text-align:right}
+  .pd-sched tbody td{padding:1.8pt 5pt;border-bottom:0.3pt solid #e8ecf2;border-right:0.3pt solid #e8ecf2;text-align:right}
   .pd-sched tbody td:first-child{text-align:center;color:#333}
   .pd-sched tbody tr:last-child td{border-bottom:none}
 }
@@ -225,30 +230,8 @@ body.client-mode .client-summary-header{display:flex}
 </head>
 <body>
 
-<!-- ══════════════════════════════════════
-     SCREEN HEADER
-══════════════════════════════════════ -->
 <header>
   <a class="logo" href="#">
-
-    <!--
-      ══════════════════════════════════════════════════════
-      ЛОГОТИП В ШАПКЕ — выберите один из вариантов:
-
-      ВАРИАНТ А (текущий): цветной круг с буквой «Э»
-      ВАРИАНТ Б: картинка-логотип (раскомментируйте img ниже
-                 и закомментируйте div.logo-icon)
-
-      Для варианта Б:
-        src="logo.png"   ← путь к вашему логотипу
-        Рекомендуемый размер: высота 36px, прозрачный фон
-      ══════════════════════════════════════════════════════
-    -->
-
-    <!-- ВАРИАНТ А (fallback — круг с буквой): -->
-    <!--  <div class="logo-icon">Э</div>
-
-    <!-- ВАРИАНТ Б (картинка логотип): -->
     <img class="logo-img" src="logo.png" alt="Eskhata Leasing">
   </a>
   <div class="lang-switcher">
@@ -258,13 +241,9 @@ body.client-mode .client-summary-header{display:flex}
   </div>
 </header>
 
-<!-- ══════════════════════════════════════
-     SCREEN APP
-══════════════════════════════════════ -->
 <main>
   <div class="calculator-grid">
 
-    <!-- ФОРМА -->
     <div class="card form-card">
       <div class="form-group">
         <label data-i18n="obj_price">Стоимость объекта</label>
@@ -285,19 +264,15 @@ body.client-mode .client-summary-header{display:flex}
       <button class="btn btn-secondary" style="margin-top:10px" onclick="enterClientMode()" data-i18n="client_btn">Режим для клиента</button>
     </div>
 
-    <!-- РЕЗУЛЬТАТЫ -->
     <div id="resultsPanel">
 
-      <!-- Шапка в режиме для клиента -->
       <div class="client-summary-header">
-        <img class="logo-img" src="logo.png" alt="Эсхата Leasing" style="height:42px">
-        <!-- Или логотип картинкой: -->
-        <!-- <img class="logo-img" src="logo.png" alt="Эсхата Leasing" style="height:42px"> -->
+        <img class="logo-img" src="logo.png" alt="Eskhata Leasing" style="height:42px">
         <div>
+          <div class="print-subtitle" id="screenSubtitle">График лизинговых платежей</div>
         </div>
       </div>
 
-      <!-- Карточки результатов -->
       <div id="resultCards">
         <div class="empty-results card">
           <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -307,7 +282,6 @@ body.client-mode .client-summary-header{display:flex}
         </div>
       </div>
 
-      <!-- График платежей (экран) -->
       <div id="scheduleSection" class="schedule-section" style="display:none">
         <div class="section-title" data-i18n="schedule_title">График платежей</div>
         <div class="card" style="padding:0;overflow:hidden">
@@ -325,7 +299,6 @@ body.client-mode .client-summary-header{display:flex}
         </div>
       </div>
 
-      <!-- Кнопки действий -->
       <div class="action-btns" id="actionBtns">
         <button class="btn-print" onclick="doPrint()" data-i18n="print_btn">🖨 Распечатать</button>
         <button class="btn-exit" onclick="exitClientMode()" data-i18n="exit_client">← Назад</button>
@@ -335,45 +308,21 @@ body.client-mode .client-summary-header{display:flex}
   </div>
 </main>
 
-<!-- ══════════════════════════════════════
-     ПЕЧАТНЫЙ ДОКУМЕНТ (скрыт на экране)
-══════════════════════════════════════ -->
 <div id="printDoc">
 
-  <!-- Логотип в печати -->
   <table class="pd-logo-box" cellpadding="0" cellspacing="0">
     <tr>
       <td class="pd-logo-inner">
-        <!--
-          ЛОГОТИП В ПЕЧАТИ:
-          Вариант А (текущий): SVG-круг с буквой
-          Вариант Б: картинка — замените SVG на:
-          <img src="logo.png" style="height:36pt;width:auto;" alt="">
-        -->
-        <img src="logo.png" style="height:36pt;width:auto;" alt="">
-          <circle cx="21" cy="21" r="21" fill="#1a4fa0"/>
-          <text x="21" y="28" text-anchor="middle" fill="white" font-size="20"
-                font-family="Arial" font-weight="bold"></text>
-        </svg>
-      </td>
-      <td class="pd-logo-inner2">
+        <img src="logo.png" style="height:32pt;width:auto;" alt="Eskhata Leasing">
       </td>
     </tr>
   </table>
 
-  <!-- Стоимость + общая стоимость договора -->
   <table class="pd-top" id="pdTop"></table>
-
-  <!-- Условия лизинга -->
   <table class="pd-cond" id="pdCond"></table>
-
-  <!-- Общая сумма при подписании -->
   <table class="pd-sign" id="pdSign"></table>
-
-  <!-- Долг -->
   <table class="pd-debt" id="pdDebt"></table>
 
-  <!-- График платежей -->
   <div class="pd-sched-wrap">
     <div class="pd-sched-hd">График платежей</div>
     <table class="pd-sched" id="pdSched">
@@ -396,13 +345,13 @@ body.client-mode .client-summary-header{display:flex}
 ══════════════════════════════════ */
 const LANGS={
   ru:{
-obj_price:'Стоимость объекта',
+    obj_price:'Стоимость объекта',
     advance_pct:'Аванс (%)',term_months:'Срок (мес.)',
     calc_btn:'Рассчитать',client_btn:'Режим для клиента',
     empty_hint:'Введите параметры и нажмите «Рассчитать»',
     schedule_title:'График платежей',
     print_btn:'🖨 Распечатать',exit_client:'← Назад',
-lbl_debt:'Долг лизинга',
+    lbl_debt:'Долг лизинга',
     lbl_advance:'Аванс',lbl_total:'Общая сумма оплаты',
     lbl_discount:'Дисконт (внутренний)',internal_label:'ВНУТРЕННИЙ',
     lbl_max_disc:'Макс. дисконт поставщика (UHM)',
@@ -412,13 +361,13 @@ lbl_debt:'Долг лизинга',
     th_total:'Сумма платежа',th_balance:'Остаток долга'
   },
   uz:{
-obj_price:"Ob'ekt narxi",
+    obj_price:"Ob'ekt narxi",
     advance_pct:'Avans (%)',term_months:'Muddat (oy)',
     calc_btn:'Hisoblash',client_btn:'Mijoz rejimi',
     empty_hint:'Parametrlarni kiriting va "Hisoblash" ni bosing',
     schedule_title:"To'lov jadvali",
     print_btn:'🖨 Chop etish',exit_client:'← Orqaga',
-lbl_debt:'Lizing qarzi',
+    lbl_debt:'Lizing qarzi',
     lbl_advance:'Avans',lbl_total:"Umumiy to'lov",
     lbl_discount:'Diskont (ichki)',internal_label:'ICHKI',
     lbl_max_disc:"Max. ta'minotchi diskonti (UHM)",
@@ -428,13 +377,13 @@ lbl_debt:'Lizing qarzi',
     th_total:"To'lov miqdori",th_balance:"Qoldiq qarz"
   },
   en:{
-obj_price:'Object price',
+    obj_price:'Object price',
     advance_pct:'Advance (%)',term_months:'Term (months)',
     calc_btn:'Calculate',client_btn:'Client mode',
     empty_hint:'Enter parameters and click "Calculate"',
     schedule_title:'Payment schedule',
     print_btn:'🖨 Print',exit_client:'← Back',
-lbl_debt:'Leasing debt',
+    lbl_debt:'Leasing debt',
     lbl_advance:'Advance',lbl_total:'Total payment',
     lbl_discount:'Discount (internal)',internal_label:'INTERNAL',
     lbl_max_disc:'Max. supplier discount (UHM)',
@@ -468,6 +417,7 @@ function parseVal(s){
   if(!s)return 0;
   return parseFloat(String(s).replace(/[^\d.]/g,''))||0;
 }
+/* dec=0 — все числа без дробей */
 function fmt(n,dec=0){
   if(n===null||n===undefined)return'—';
   return Number(n.toFixed(dec)).toLocaleString('ru-RU',{minimumFractionDigits:dec,maximumFractionDigits:dec});
@@ -480,7 +430,7 @@ function fmtPct(n){
    Математика
 ══════════════════════════════════ */
 const TARGET_IRR=0.30, IRR_STEP=0.0001, DISC_STEP=0.0005, DISC_MAX=0.50;
-const REG_FEE=1000000; // регистрационный сбор — только внутренний расчёт, клиенту не показывается
+const REG_FEE=1000000;
 
 function ceilTo(v,s){return Math.ceil((v+s-1e-7)/s)*s}
 
@@ -512,12 +462,8 @@ function buildCFs(price,advance,debt,term,disc){
 }
 
 /*
-  ══════════════════════════════════════════════════════════
   ТАБЛИЦА ФИКСИРОВАННЫХ ДИСКОНТОВ
   Формат: { term: <срок мес.>, adv: <аванс 0..1>, disc: <дисконт 0..1> }
-  Пример: срок 24 мес, аванс 50% → дисконт 14,25%
-  Добавляйте новые строки по мере необходимости.
-  ══════════════════════════════════════════════════════════
 */
 const FIXED_DISCOUNTS=[
   {term:24, adv:0.50, disc:0.1425},
@@ -538,7 +484,6 @@ function findDiscount(price,advance,debt,term,advPct){
 }
 
 function buildSchedule(debt,term,discAmt){
-  // Маржа распределяется пропорционально остатку долга (убывающая база)
   const totalMargin=discAmt*100/112;
   const principalPerMonth=debt/term;
   const sumBal=term*debt-principalPerMonth*(term*(term-1)/2);
@@ -567,7 +512,6 @@ function calculate(){
   const price=parseVal(document.getElementById('price').value);
   const advPct=parseVal(document.getElementById('advPct').value)/100;
   const term=parseInt(document.getElementById('term').value)||0;
-  const desc='';
 
   if(price<=0){alert('Введите стоимость объекта');return}
   if(advPct<=0||advPct>=1){alert('Введите корректный аванс (1–99%)');return}
@@ -580,11 +524,11 @@ function calculate(){
   const discAmt=price*foundDisc;
   const vatOnDisc=discAmt*12/112;
   const monthPay=debt/term;
-  const totalPay=advance+monthPay*term; // клиенту — без регистрационного сбора
+  const totalPay=advance+monthPay*term;
   const overpay=totalPay-price;
   const schedule=buildSchedule(debt,term,discAmt);
 
-  lastResult={desc,price,advance,advPct,debt,term,foundDisc,discAmt,vatOnDisc,monthPay,totalPay,overpay,schedule};
+  lastResult={price,advance,advPct,debt,term,foundDisc,discAmt,vatOnDisc,monthPay,totalPay,overpay,schedule};
   renderResults(lastResult);
 }
 
@@ -649,7 +593,6 @@ function renderResults(r){
       </div>
     </div>`;
 
-  // Таблица на экране
   const tbody=document.getElementById('schedBody');
   tbody.innerHTML='';
   r.schedule.forEach(row=>{
@@ -663,8 +606,7 @@ function renderResults(r){
 
   document.getElementById('scheduleSection').style.display='block';
   document.getElementById('actionBtns').classList.add('visible');
-  document.getElementById('screenSubtitle').textContent=
-    t('print_subtitle');
+  document.getElementById('screenSubtitle').textContent=t('print_subtitle');
 }
 
 /* ══════════════════════════════════
@@ -678,40 +620,35 @@ function buildPrintDoc(r,clientFeePct,clientFeeAmt){
   const signingTotal=r.advance+(commissionAmt||0)+insuranceAmt;
   const contractTotal=signingTotal+r.monthPay*r.term;
 
-  // Стоимость объекта + общая стоимость договора
   document.getElementById('pdTop').innerHTML=`
-    <tr><td class="pt-lbl">Стоимость объекта</td><td class="pt-val">${fmt(r.price,2)}</td></tr>
-    <tr><td class="pt-lbl">Общая стоимость договора</td><td class="pt-val">${fmt(contractTotal,2)}</td></tr>`;
+    <tr><td class="pt-lbl">Стоимость объекта</td><td class="pt-val">${fmt(r.price)}</td></tr>
+    <tr><td class="pt-lbl">Общая стоимость договора</td><td class="pt-val">${fmt(contractTotal)}</td></tr>`;
 
-  // Условия лизинга
   document.getElementById('pdCond').innerHTML=`
     <tr class="pd-cond-head"><td colspan="3">Условия лизинга</td></tr>
     <tr><td class="pc-lbl">Тип графика платежей</td><td class="pc-mid"></td><td class="pc-val">Рассрочка</td></tr>
     <tr class="pc-alt"><td class="pc-lbl">Срок</td><td class="pc-mid">Мес.</td><td class="pc-val">${r.term}</td></tr>
-    <tr><td class="pc-lbl">Авансовый платёж</td><td class="pc-mid">${(r.advPct*100).toFixed(0)}%</td><td class="pc-val">${fmt(r.advance,2)}</td></tr>
-    <tr class="pc-alt"><td class="pc-lbl">Комиссия за оформление</td><td class="pc-mid">${commissionPct>0?fmtPct(commissionPct):'0,00%'}</td><td class="pc-val">${commissionAmt>0?fmt(commissionAmt,2):'-'}</td></tr>
-    <tr><td class="pc-lbl">Страхование на весь срок</td><td class="pc-mid">0,16%</td><td class="pc-val">${fmt(insuranceAmt,2)}</td></tr>`;
+    <tr><td class="pc-lbl">Авансовый платёж</td><td class="pc-mid">${(r.advPct*100).toFixed(0)}%</td><td class="pc-val">${fmt(r.advance)}</td></tr>
+    <tr class="pc-alt"><td class="pc-lbl">Комиссия за оформление</td><td class="pc-mid">${commissionPct>0?fmtPct(commissionPct):'0%'}</td><td class="pc-val">${commissionAmt>0?fmt(commissionAmt):'-'}</td></tr>
+    <tr><td class="pc-lbl">Страхование на весь срок</td><td class="pc-mid">0,16%</td><td class="pc-val">${fmt(insuranceAmt)}</td></tr>`;
 
-  // Общая сумма при подписании
   document.getElementById('pdSign').innerHTML=`
-    <tr><td class="ps-lbl">Общая сумма к оплате при подписании:</td><td class="ps-val">${fmt(signingTotal,2)}</td></tr>`;
+    <tr><td class="ps-lbl">Общая сумма к оплате при подписании:</td><td class="ps-val">${fmt(signingTotal)}</td></tr>`;
 
-  // Долг
   document.getElementById('pdDebt').innerHTML=`
-    <tr><td class="pdl">Долг</td><td class="pdv">${fmt(r.debt,2)}</td></tr>`;
+    <tr><td class="pdl">Долг</td><td class="pdv">${fmt(r.debt)}</td></tr>`;
 
-  // График платежей
   const pdBody=document.getElementById('pdSchedBody');
   let rows=`<tr class="sched-sub">
     <td></td>
-    <td>${fmt(r.debt,2)}</td>
-    <td>${fmt(r.debt,2)}</td>
+    <td>${fmt(r.debt)}</td>
+    <td>${fmt(r.debt)}</td>
   </tr>`;
   rows+=r.schedule.map(row=>`
     <tr>
       <td>${row.num}</td>
-      <td>${fmt(row.principal,0)}</td>
-      <td>${fmt(row.balance,0)}</td>
+      <td>${fmt(row.principal)}</td>
+      <td>${fmt(row.balance)}</td>
     </tr>`).join('');
   pdBody.innerHTML=rows;
 }
