@@ -3,522 +3,755 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title data-i18n="title">Калькулятор</title>
+<title>Эсхата Leasing — Калькулятор</title>
+ 
+<!--
+  ╔══════════════════════════════════════════════════════════╗
+  ║  FAVICON                                                 ║
+  ║  Замените "favicon.ico" на путь к вашему файлу.          ║
+  ║  Поддерживаются .ico, .png, .svg                         ║
+  ║  Пример: ./assets/favicon.png                            ║
+  ╚══════════════════════════════════════════════════════════╝
+-->
 <link rel="icon" type="image/png" href="favicon.png">
-
+<!-- Если .ico формат: -->
+<!-- <link rel="icon" type="image/x-icon" href="favicon.ico"> -->
+<!-- Если SVG: -->
+<!-- <link rel="icon" type="image/svg+xml" href="favicon.svg"> -->
+ 
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
-body{background:linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%);min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:flex-start}
-.container{background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.15);padding:40px;max-width:1200px;width:100%;margin-top:20px}
-.scale-wrap{transform-origin:top center}
-
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
-.header-left{display:flex;align-items:center;gap:15px}
-.logo{height:48px}
-.lang-switch span{cursor:pointer;font-weight:600;margin-left:12px;color:#667eea}
-.lang-switch span.active{text-decoration:underline}
-h1{font-size:32px;color:#2c3e50}
-
-.calculator-section{display:flex;flex-wrap:wrap;gap:40px}
-.input-section{flex:1;min-width:350px;padding:25px;background:#f8f9fa;border-radius:15px}
-.output-section{flex:2;min-width:500px}
-
-.input-group{margin-bottom:20px}
-label{display:block;margin-bottom:8px;font-weight:600;font-size:14px;color:#495057}
-.currency-input,.percentage-input{position:relative}
-.currency-input input,.percentage-input input,input[type=number],select{
-width:100%;padding:12px 15px;border:2px solid #e0e0e0;border-radius:8px;font-size:16px}
-.currency-input input{padding-right:45px}
-.percentage-input input{padding-right:45px}
-.currency-symbol{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-weight:bold}
-.percentage-symbol{position:absolute;right:15px;top:50%;transform:translateY(-50%);font-weight:bold}
-
-.calculate-btn,.client-btn,.pdf-btn{
-width:100%;padding:16px;border:none;border-radius:10px;font-size:18px;font-weight:600;cursor:pointer;margin-bottom:10px}
-.calculate-btn{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
-.client-btn{background:#2c3e50;color:#fff}
-.pdf-btn{background:#444;color:#fff}
-
-.summary-section{background:#fff;border-radius:15px;padding:25px;margin-bottom:30px}
-.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
-.summary-item{text-align:center;padding:20px;background:#f8f9fa;border-radius:10px}
-.summary-label{font-size:14px;color:#6c757d;margin-bottom:8px}
-.summary-value{font-size:22px;font-weight:700;color:#2c3e50}
-.summary-sub{font-size:13px;color:#6c757d;margin-top:4px}
-
-.results-container{background:#fff;border-radius:15px;padding:25px}
-.schedule-container{border:2px solid #e9ecef;border-radius:10px}
+/* ══════════════════════════════════
+   SCREEN
+══════════════════════════════════ */
+:root {
+  --brand-blue:#1a4fa0; --brand-blue-light:#2563c7; --brand-accent:#6c63ff;
+  --bg:#eef1f7; --card:#fff; --text:#0f1923; --muted:#6b7a8d;
+  --border:#dde3ed; --shadow:0 2px 16px rgba(26,79,160,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+ 
+header{
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:0 40px;height:60px;display:flex;align-items:center;
+  justify-content:space-between;position:sticky;top:0;z-index:100;
+  box-shadow:0 1px 8px rgba(26,79,160,.06);
+}
+ 
+/*
+  ══════════════════════════════════════════════════════════
+  ЛОГОТИП В ШАПКЕ (ЭКРАН)
+  .logo-icon — показывается если нет файла логотипа (fallback)
+  .logo-img  — показывается если логотип задан
+  Если хотите использовать картинку-логотип:
+    1. Раскомментируйте <img class="logo-img"> в HTML ниже
+    2. Закомментируйте <div class="logo-icon">
+    3. Укажите src="./assets/logo.png"
+  ══════════════════════════════════════════════════════════
+*/
+.logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800;color:var(--text);text-decoration:none}
+.logo-icon{width:36px;height:36px;background:var(--brand-blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:800;flex-shrink:0}
+.logo-img{height:36px;width:auto;object-fit:contain;flex-shrink:0}
+.logo span{color:var(--brand-blue-light);font-weight:500}
+ 
+.lang-switcher{display:flex;gap:14px}
+.lang-switcher a{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;cursor:pointer;transition:color .2s}
+.lang-switcher a:hover,.lang-switcher a.active{color:var(--brand-blue)}
+ 
+main{max-width:1100px;margin:0 auto;padding:36px 24px 60px}
+.calculator-grid{display:grid;grid-template-columns:360px 1fr;gap:24px;align-items:start}
+.card{background:var(--card);border-radius:16px;padding:28px;box-shadow:var(--shadow)}
+.form-group{margin-bottom:18px}
+label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+input[type=text],input[type=number]{
+  width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;
+  font-size:15px;font-family:'Manrope',sans-serif;font-weight:500;color:var(--text);
+  background:#f8fafd;transition:border-color .2s,box-shadow .2s;outline:none
+}
+input:focus{border-color:var(--brand-blue-light);box-shadow:0 0 0 3px rgba(37,99,199,.1);background:#fff}
+.input-wrap{position:relative}
+.input-wrap input{padding-right:36px}
+.input-suffix{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--muted);font-weight:600;pointer-events:none}
+.btn{width:100%;padding:13px;border:none;border-radius:10px;font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:6px}
+.btn-primary{background:linear-gradient(135deg,var(--brand-blue),var(--brand-accent));color:#fff}
+.btn-primary:hover{box-shadow:0 4px 16px rgba(108,99,255,.35);transform:translateY(-1px)}
+.btn-secondary{background:var(--text);color:#fff}
+.btn-secondary:hover{background:#1e2a38;transform:translateY(-1px)}
+ 
+.results-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.result-cell{background:#f4f7fb;border-radius:12px;padding:14px 16px;border:1px solid var(--border)}
+.result-cell.full{grid-column:1/-1}
+.result-cell.highlight{background:#eef4ff;border-color:#c7d8f7}
+.cell-label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.cell-value{font-size:19px;font-weight:800;color:var(--text);letter-spacing:-.4px}
+.cell-sub{font-size:11px;color:var(--muted);margin-top:2px;font-weight:500}
+ 
+.internal-row{grid-column:1/-1;background:#fff7ed;border:1px solid #fcd9a0;border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+.internal-row .cell-label{color:#92400e}
+.internal-row .cell-value{font-size:19px;font-weight:800;color:#b45309}
+.internal-badge{font-size:10px;background:#fef3c7;color:#92400e;border-radius:6px;padding:3px 8px;font-weight:700;border:1px solid #fcd9a0;white-space:nowrap}
+ 
+.max-disc-row{grid-column:1/-1;background:#f0fdf4;border:1px solid #a7f3d0;border-radius:12px;padding:13px 16px}
+.max-disc-row .cell-label{color:#065f46;margin-bottom:8px}
+.max-disc-input-row{display:flex;align-items:center;gap:10px}
+.max-disc-input-row input{width:120px;padding:8px 32px 8px 12px;border:1.5px solid #6ee7b7;border-radius:8px;font-size:14px;font-family:'Manrope',sans-serif;font-weight:600;color:#065f46;background:#fff;outline:none}
+.max-disc-amt{font-size:13px;color:#065f46;font-weight:600}
+ 
+.client-fee-row{grid-column:1/-1;background:#fdf4ff;border:1px solid #e9d5ff;border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+.client-fee-row .cell-label{color:#6b21a8}
+.client-fee-row .cell-value{font-size:19px;font-weight:800;color:#7c3aed}
+ 
+.schedule-section{margin-top:24px}
+.section-title{font-size:15px;font-weight:700;margin-bottom:12px}
 table{width:100%;border-collapse:collapse;font-size:14px}
-thead{background:#2c3e50;color:#fff}
-th,td{padding:10px;text-align:center}
-tbody tr:nth-child(even){background:#fafafa}
-
-.client .input-section,
-.client .calculate-btn,
-.client .client-btn,
-.client .lang-switch{display:none}
-.client .container{box-shadow:none}
-.client-actions{
-  display:none;
-  padding:16px;
-  border:none;
-  border-radius:10px;
-  font-size:18px;
-  font-weight:600;
-  cursor:pointer;
-  margin-right:10px;
-  background:#e9ecef;
-  color:#2c3e50;
+thead tr{background:var(--brand-blue);color:#fff}
+thead th{padding:9px 12px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+tbody tr:nth-child(even){background:#f8fafd}
+tbody tr:hover{background:#eef4ff}
+tbody td{padding:7px 12px;border-bottom:1px solid #f0f3f8;font-weight:500}
+tbody td:not(:first-child){text-align:right}
+tfoot tr{background:#e8eef8;font-weight:700}
+tfoot td{padding:8px 12px;border-top:2px solid var(--brand-blue)}
+tfoot td:not(:first-child){text-align:right}
+ 
+.empty-results{text-align:center;padding:48px 20px;color:var(--muted)}
+.empty-results svg{opacity:.3;margin:0 auto 12px;display:block}
+.empty-results p{font-size:14px;font-weight:500}
+ 
+.action-btns{display:none;margin-top:16px;gap:10px}
+.action-btns.visible{display:flex}
+.btn-print{padding:10px 20px;background:var(--brand-blue);color:#fff;border:none;border-radius:8px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s}
+.btn-print:hover{background:var(--brand-blue-light)}
+.btn-exit{display:none;padding:10px 20px;background:#e2e8f0;color:var(--text);border:none;border-radius:8px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+ 
+/* client mode */
+body.client-mode header{display:none}
+body.client-mode main{padding:16px}
+body.client-mode .form-card{display:none}
+body.client-mode .calculator-grid{grid-template-columns:1fr}
+body.client-mode .internal-row{display:none!important}
+body.client-mode .max-disc-row{display:none!important}
+body.client-mode .cell-overpay{display:none!important}
+body.client-mode .btn-exit{display:inline-block}
+ 
+.client-summary-header{display:none;align-items:center;gap:14px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--brand-blue)}
+body.client-mode .client-summary-header{display:flex}
+.print-title{font-size:18px;font-weight:800}
+.print-subtitle{font-size:12px;color:var(--muted);margin-top:2px}
+ 
+/* print doc hidden on screen — keep in DOM so window.print() can access it */
+#printDoc{position:absolute;left:-9999px;top:0;width:210mm;visibility:hidden;pointer-events:none}
+ 
+/* ══════════════════════════════════
+   PRINT
+══════════════════════════════════ */
+@media print{
+  @page{size:A4 portrait;margin:14mm 16mm}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body>header,body>main,.action-btns{display:none!important}
+  body{background:#fff;margin:0;padding:0}
+ 
+  #printDoc{
+    display:block!important;
+    position:static!important;
+    left:auto!important;
+    top:auto!important;
+    visibility:visible!important;
+    width:100%;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:9pt;
+    color:#000;
+  }
+ 
+  /* ── Logo box ── */
+  .pd-logo-box{
+    display:table;
+    border:1.5pt solid #1a4fa0;
+    border-radius:5pt;
+    padding:7pt 14pt;
+    margin-bottom:14pt;
+  }
+  .pd-logo-inner{display:table-cell;vertical-align:middle}
+  .pd-logo-inner2{display:table-cell;vertical-align:middle;padding-left:10pt}
+  .pd-logo-name{font-size:17pt;font-weight:700;color:#0f1923;line-height:1;letter-spacing:-.2pt;white-space:nowrap}
+  .pd-logo-name em{color:#1a4fa0;font-style:normal;font-weight:400}
+  /*
+    Если используете картинку в печатном логотипе:
+    .pd-print-logo-img { height:36pt; width:auto; }
+  */
+ 
+  /* ── Top 2-row summary ── */
+  .pd-top{width:100%;border-collapse:collapse;margin-bottom:6pt;font-size:9pt}
+  .pd-top td{padding:5pt 8pt;border:0.5pt solid #b0bac8}
+  .pt-lbl{color:#222;width:62%}
+  .pt-val{font-weight:700;text-align:right;font-size:9.5pt}
+ 
+  /* ── Conditions block ── */
+  .pd-cond{width:100%;border-collapse:collapse;margin-bottom:6pt;font-size:9pt}
+  .pd-cond-head td{background:#d0daea!important;font-weight:700;text-align:center;padding:4pt 8pt;border:0.5pt solid #b0bac8;font-size:9pt}
+  .pd-cond td{padding:4pt 8pt;border:0.5pt solid #b0bac8;vertical-align:middle}
+  .pc-lbl{color:#222;width:52%}
+  .pc-mid{color:#555;font-size:8.5pt;text-align:center;width:10%}
+  .pc-val{font-weight:700;text-align:right}
+  .pd-cond .pc-alt td{background:#f0f3f9!important}
+ 
+  /* ── Signing amount ── */
+  .pd-sign{width:100%;border-collapse:collapse;margin-bottom:6pt;font-size:9pt}
+  .pd-sign td{padding:5pt 8pt;border:0.5pt solid #b0bac8}
+  .ps-lbl{color:#222;font-weight:600;width:62%}
+  .ps-val{font-weight:700;text-align:right;font-size:9.5pt}
+ 
+  /* ── Debt row ── */
+  .pd-debt{width:100%;border-collapse:collapse;margin-bottom:14pt;font-size:9pt}
+  .pd-debt td{padding:5pt 8pt;border:0.5pt solid #b0bac8}
+  .pdl{color:#222;width:62%}
+  .pdv{font-weight:700;text-align:right}
+ 
+  /* ── Schedule ── */
+  .pd-sched-wrap{border:0.5pt solid #b0bac8}
+  .pd-sched-hd{font-size:9pt;font-weight:700;text-align:center;padding:4pt;background:#eef2f8;border-bottom:0.5pt solid #b0bac8}
+  .pd-sched{width:100%;border-collapse:collapse;font-size:8.5pt}
+  .pd-sched thead tr{background:#fff}
+  .pd-sched thead th{color:#333;padding:4pt 6pt;text-align:center;font-weight:600;font-size:8.5pt;border-bottom:0.5pt solid #b0bac8;border-right:0.5pt solid #d0d8e8}
+  .pd-sched .sched-sub td{font-weight:700;text-align:right;padding:3pt 6pt;font-size:8.5pt;border-bottom:0.5pt solid #b0bac8;border-right:0.5pt solid #d0d8e8;background:#f8f9fc}
+  .pd-sched .sched-sub td:first-child{text-align:center}
+  .pd-sched tbody td{padding:2.5pt 6pt;border-bottom:0.5pt solid #e8ecf2;border-right:0.5pt solid #e8ecf2;text-align:right}
+  .pd-sched tbody td:first-child{text-align:center;color:#333}
+  .pd-sched tbody tr:last-child td{border-bottom:none}
 }
-.client-back-btn{
-  padding:16px;
-  border:none;
-  border-radius:10px;
-  font-size:18px;
-  font-weight:600;
-  cursor:pointer;
-  margin-right:10px;
-  background:#e9ecef;
-  color:#2c3e50;
-}
-
-.client-back-btn:hover{
-  background:#dee2e6;
-}
-
-.client .client-actions{
-  display:block;
-}
-
-.footer{
-  margin-top:30px;
-  width:100%;
-  text-align:center;
-  font-size:13px;
-  color:#6c757d;
-}
-
-.footer a{
-  color:#6c757d;
-  text-decoration:none;
-}
-
-.footer a:hover{
-  text-decoration:underline;
-}
-
-
-@media print {
-
-  @page {
-    size: A4 portrait;
-    margin: 3mm;
-  }
-
-  html, body {
-    width: 210mm;
-    height: 297mm;
-    overflow: hidden;
-  }
-
-  .client-actions{
-    display:none !important;
-  }
-
-  body {
-    background: #fff !important;
-  }
-
-  .container {
-    box-shadow: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    max-width: none !important;
-  }
-
-  .scale-wrap {
-    transform: scale(0.82);
-    transform-origin: top center;
-  }
-
-  .header {
-    margin-bottom: 10px !important;
-  }
-
-  .summary-section {
-    margin-bottom: 12px !important;
-    padding: 14px !important;
-  }
-
-  .results-container {
-    padding: 12px !important;
-  }
-
-  table, tr, td, th,
-  .results-container,
-  .summary-section {
-    page-break-inside: avoid !important;
-  }
-
-  .input-section,
-  .calculate-btn,
-  .client-btn,
-  .pdf-btn,
-  .lang-switch {
-    display: none !important;
-  }
-}
-
-
 </style>
 </head>
-
 <body>
-<div class="container">
-<div class="scale-wrap">
-
-<div class="header">
-  <div class="header-left">
-    <img src="logo.png" class="logo">
-    <h1 data-i18n="title">Калькулятор</h1>
+ 
+<!-- ══════════════════════════════════════
+     SCREEN HEADER
+══════════════════════════════════════ -->
+<header>
+  <a class="logo" href="#">
+ 
+    <!--
+      ══════════════════════════════════════════════════════
+      ЛОГОТИП В ШАПКЕ — выберите один из вариантов:
+ 
+      ВАРИАНТ А (текущий): цветной круг с буквой «Э»
+      ВАРИАНТ Б: картинка-логотип (раскомментируйте img ниже
+                 и закомментируйте div.logo-icon)
+ 
+      Для варианта Б:
+        src="./assets/logo.png"   ← путь к вашему логотипу
+        Рекомендуемый размер: высота 36px, прозрачный фон
+      ══════════════════════════════════════════════════════
+    -->
+ 
+    <!-- ВАРИАНТ А (fallback — круг с буквой): -->
+    <div class="logo-icon">Э</div>
+ 
+    <!-- ВАРИАНТ Б (картинка логотип): -->
+    <!-- <img class="logo-img" src="./assets/logo.png" alt="Эсхата Leasing"> -->
+ 
+    Эсхата <span>Leasing</span>&nbsp; Калькулятор
+  </a>
+  <div class="lang-switcher">
+    <a class="active" onclick="setLang('ru')">RU</a>
+    <a onclick="setLang('uz')">UZ</a>
+    <a onclick="setLang('en')">ENG</a>
   </div>
-  <div class="lang-switch">
-    <span data-lang="ru">RU</span>
-    <span data-lang="uz">UZ</span>
-    <span data-lang="en">ENG</span>
-  </div>
-</div>
-<div class="client-actions">
-  <button class="client-back-btn" onclick="exitClient()" data-i18n="back">
-    ← Назад
-  </button>
-  <button class="pdf-btn" onclick="window.print()" data-i18n="pdf">
-    PDF / Печать
-  </button>
-</div>
-
-<div class="calculator-section">
-
-<div class="input-section">
-<div class="input-group">
-  <label data-i18n="object">Описание объекта</label>
-  <div class ="currency-input">
-  <input type="text" id="objectName" value=""></div>
-</div>
-  
-<div class="input-group">
-<label data-i18n="price">Стоимость объекта</label>
-<div class="currency-input">
-<input type="text" id="price" value=""></div>
-</div>
-
-<div class="input-group">
-<label data-i18n="advance">Аванс (%)</label>
-<div class="percentage-input">
-<input type="text" id="advance" value=""><span class="percentage-symbol">%</span>
-</div>
-</div>
-
-<div class="input-group">
-<label data-i18n="term">Срок (мес.)</label>
-<input type="number" id="term" value="">
-</div>
-
-<div class="input-group">
-<label data-i18n="type">Тип графика</label>
-<select id="type">
-<option value="annuity" data-i18n="t_annuity">Аннуитет</option>
-<option value="annuity_q" data-i18n="t_annuity_q">Аннуитет (квартальный)</option>
-<option value="decl2" data-i18n="t_decl2">Убывающий 2x</option>
-<option value="decl3" data-i18n="t_decl3">Убывающий 3x</option>
-<option value="linear_q" data-i18n="t_linear">Линейный (квартальный)</option>
-<option value="inst_m" data-i18n="t_inst_m">Рассрочка ежемесячная</option>
-<option value="inst_q" data-i18n="t_inst_q">Рассрочка квартальная</option>
-</select>
-</div>
-
-<button class="calculate-btn" onclick="build()" data-i18n="calc">Рассчитать</button>
-<button class="client-btn" onclick="toggleClient()" data-i18n="client">Режим для клиента</button>
-</div>
-
-<div class="output-section">
-<div class="summary-section">
-<div class="summary-grid">
-<div class="summary-item"><div class="summary-label" data-i18n="object">Объект</div><div class="summary-value" id="outObject">—</div></div>
-<div class="summary-item"><div class="summary-label" data-i18n="lease">Долг лизинга</div><div class="summary-value" id="outLease">0</div></div>
-<div class="summary-item"><div class="summary-label" data-i18n="adv">Аванс</div><div class="summary-value" id="outAdvance">0</div></div>
-<div class="summary-item"><div class="summary-label" data-i18n="over">Процент лизинговой компании</div><div class="summary-value" id="outOver">0</div></div>
-<div class="summary-item"><div class="summary-label" data-i18n="total">Общая сумма оплаты</div><div class="summary-value" id="outTotal">0</div></div>
-<div class="summary-item"><div class="summary-label" data-i18n="full">Полная стоимость объекта</div><div class="summary-value" id="outFull">0</div></div>
-<div class="summary-item">
-  <div class="summary-label" data-i18n="margin">Единоразовая маржа</div>
-  <div class="summary-value" id="outMargin">0</div>
-  <div class="summary-sub" id="outMarginPct"></div>
-</div>
-<div class="summary-item">
-  <div class="summary-label">Flat rate</div>
-  <div class="summary-value" id="outFlat">0.00%</div>
-</div>
-<div class="summary-item">
-  <div class="summary-label" data-i18n="ins">Страхование</div>
-  <div class="summary-value" id="outIns">0</div>
-  <div class="summary-sub" id="outInsPct"></div>
-</div>
-</div>
-</div>
-
-<div class="results-container">
-<div class="schedule-container">
-<table>
-<thead>
-<tr>
-<th data-i18n="m">Месяц</th>
-<th data-i18n="p">Общая сумма оплаты</th>
-<th data-i18n="pr">Оплата основного долга</th>
-<th data-i18n="i">Маржа</th>
-<th data-i18n="b">Остаток</th>
-</tr>
-</thead>
-<tbody id="tbl"></tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-  <div class="footer">
-    <div class="footer-company">Eskhata leasing</div>
-    <div class="footer-contacts">
-      <a href="tel:+998939901688">+998 93 990-16-88</a> ·
-      <a href="mailto:info@eskhata-leasing.uz">info@eskhata-leasing.uz</a> ·
-      <a href="https://eskhata-leasing.uz/ru" target="_blank">
-        www.eskhata-leasing.uz
-      </a> ·
-      <span>г.Ташкент, ул.Богибостон 186</span>
+</header>
+ 
+<!-- ══════════════════════════════════════
+     SCREEN APP
+══════════════════════════════════════ -->
+<main>
+  <div class="calculator-grid">
+ 
+    <!-- ФОРМА -->
+    <div class="card form-card">
+      <div class="form-group">
+        <label data-i18n="obj_desc">Описание объекта</label>
+        <input type="text" id="objDesc">
+      </div>
+      <div class="form-group">
+        <label data-i18n="obj_price">Стоимость объекта</label>
+        <input type="text" id="price" oninput="formatInput(this)" placeholder="0">
+      </div>
+      <div class="form-group">
+        <label data-i18n="advance_pct">Аванс (%)</label>
+        <div class="input-wrap">
+          <input type="number" id="advPct" min="1" max="99" step="1" placeholder="30">
+          <span class="input-suffix">%</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label data-i18n="term_months">Срок (мес.)</label>
+        <input type="number" id="term" min="1" max="120" step="1" placeholder="24">
+      </div>
+      <button class="btn btn-primary" onclick="calculate()" data-i18n="calc_btn">Рассчитать</button>
+      <button class="btn btn-secondary" style="margin-top:10px" onclick="enterClientMode()" data-i18n="client_btn">Режим для клиента</button>
+    </div>
+ 
+    <!-- РЕЗУЛЬТАТЫ -->
+    <div id="resultsPanel">
+ 
+      <!-- Шапка в режиме для клиента -->
+      <div class="client-summary-header">
+        <div class="logo-icon" style="width:42px;height:42px;font-size:21px">Э</div>
+        <!-- Или логотип картинкой: -->
+        <!-- <img class="logo-img" src="./assets/logo.png" alt="Эсхата Leasing" style="height:42px"> -->
+        <div>
+          <div class="print-title">Эсхата Leasing</div>
+          <div class="print-subtitle" id="screenSubtitle">График лизинговых платежей</div>
+        </div>
+      </div>
+ 
+      <!-- Карточки результатов -->
+      <div id="resultCards">
+        <div class="empty-results card">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="3" width="20" height="18" rx="3"/><path d="M7 8h10M7 12h6M7 16h4"/>
+          </svg>
+          <p data-i18n="empty_hint">Введите параметры и нажмите «Рассчитать»</p>
+        </div>
+      </div>
+ 
+      <!-- График платежей (экран) -->
+      <div id="scheduleSection" class="schedule-section" style="display:none">
+        <div class="section-title" data-i18n="schedule_title">График платежей</div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <table id="screenTable">
+            <thead>
+              <tr>
+                <th>№</th>
+                <th id="th-total">Сумма платежа</th>
+                <th id="th-balance">Остаток долга</th>
+              </tr>
+            </thead>
+            <tbody id="schedBody"></tbody>
+            <tfoot id="schedFoot"></tfoot>
+          </table>
+        </div>
+      </div>
+ 
+      <!-- Кнопки действий -->
+      <div class="action-btns" id="actionBtns">
+        <button class="btn-print" onclick="doPrint()" data-i18n="print_btn">🖨 Распечатать</button>
+        <button class="btn-exit" onclick="exitClientMode()" data-i18n="exit_client">← Назад</button>
+      </div>
+ 
     </div>
   </div>
-
+</main>
+ 
+<!-- ══════════════════════════════════════
+     ПЕЧАТНЫЙ ДОКУМЕНТ (скрыт на экране)
+══════════════════════════════════════ -->
+<div id="printDoc">
+ 
+  <!-- Логотип в печати -->
+  <table class="pd-logo-box" cellpadding="0" cellspacing="0">
+    <tr>
+      <td class="pd-logo-inner">
+        <!--
+          ЛОГОТИП В ПЕЧАТИ:
+          Вариант А (текущий): SVG-круг с буквой
+          Вариант Б: картинка — замените SVG на:
+          <img src="./assets/logo.png" style="height:36pt;width:auto;" alt="">
+        -->
+        <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="21" cy="21" r="21" fill="#1a4fa0"/>
+          <text x="21" y="28" text-anchor="middle" fill="white" font-size="20"
+                font-family="Arial" font-weight="bold">Э</text>
+        </svg>
+      </td>
+      <td class="pd-logo-inner2">
+        <div class="pd-logo-name">Eskhata <em>Leasing</em></div>
+      </td>
+    </tr>
+  </table>
+ 
+  <!-- Стоимость + общая стоимость договора -->
+  <table class="pd-top" id="pdTop"></table>
+ 
+  <!-- Условия лизинга -->
+  <table class="pd-cond" id="pdCond"></table>
+ 
+  <!-- Общая сумма при подписании -->
+  <table class="pd-sign" id="pdSign"></table>
+ 
+  <!-- Долг -->
+  <table class="pd-debt" id="pdDebt"></table>
+ 
+  <!-- График платежей -->
+  <div class="pd-sched-wrap">
+    <div class="pd-sched-hd">График платежей</div>
+    <table class="pd-sched" id="pdSched">
+      <thead>
+        <tr>
+          <th>Месяц</th>
+          <th>оплаты</th>
+          <th>уплате</th>
+        </tr>
+      </thead>
+      <tbody id="pdSchedBody"></tbody>
+    </table>
+  </div>
+ 
+</div>
+ 
 <script>
-const REG=876736;
-const RATE=0.2975/12;
-const MARGIN_RATE=0.035;
-
-const i18n={
-ru:{title:"Калькулятор",price:"Стоимость объекта",advance:"Аванс (%)",term:"Срок (мес.)",
-type:"Тип графика",back: "Назад", calc:"Рассчитать",full: "Полная стоимость объекта", client:"Режим для клиента",pdf:"PDF / Печать",
-lease:"Долг лизинга",object: "Описание объекта",adv:"Аванс",over:"Переплата",total:"Общая сумма оплаты",margin:"Единоразовая маржа",ins:"Страхование",
-m:"Месяц",p:"Общая сумма оплаты",pr:"Оплата основного долга",i:"Маржа",b:"Остаток",
-t_annuity:"Аннуитет",t_annuity_q:"Аннуитет (квартальный)",t_decl2:"Убывающий 2x",t_decl3:"Убывающий 3x",
-t_linear:"Линейный (квартальный)",t_inst_m:"Рассрочка ежемесячная",t_inst_q:"Рассрочка квартальная"},
-en:{title:"Calculator",back: "Back", full: "Total asset cost",price:"Asset price",advance:"Advance (%)",term:"Term (months)",
-type:"Schedule type",calc:"Calculate",client:"Client mode",pdf:"PDF / Print",
-lease:"Lease balance",object: "Asset description",adv:"Advance",over:"Overpayment",total:"Total payment",margin:"One-time commission",ins:"Insurance",
-m:"Month",p:"Payment",pr:"Principal",i:"Margin",b:"Balance",
-t_annuity:"Annuity",t_annuity_q:"Quarterly annuity",t_decl2:"Declining 2x",t_decl3:"Declining 3x",
-t_linear:"Quarterly linear",t_inst_m:"Monthly installment",t_inst_q:"Quarterly installment"},
-uz:{title:"Kalkulyator",price:"Mol-mulk qiymati",advance:"Boshlang‘ich to‘lov (%)",term:"Muddati (oy)",
-type:"To‘lov jadvali",object: "Obyekt tavsifi",calc:"Hisoblash",client:"Mijoz rejimi",pdf:"PDF / Chop etish",
-lease:"Lizing qoldig‘i",back: "Orqaga",full: "Obyektning to‘liq qiymati",adv:"Boshlang‘ich to‘lov",over:"Ortiqcha to‘lov",total:"Jami to‘lov",margin:"Bir martalik marja",ins:"Sug‘urta",
-m:"Oy",p:"To‘lov",pr:"Asosiy qarz",i:"Marja",b:"Qoldiq",
-t_annuity:"Annuitet",t_annuity_q:"Annuitet (choraklik)",t_decl2:"Kamayuvchi 2x",t_decl3:"Kamayuvchi 3x",
-t_linear:"Chiziqli (choraklik)",t_inst_m:"Oylik bo‘lib to‘lash",t_inst_q:"Choraklik bo‘lib to‘lash"}
+/* ══════════════════════════════════
+   i18n
+══════════════════════════════════ */
+const LANGS={
+  ru:{
+    obj_desc:'Описание объекта',obj_price:'Стоимость объекта',
+    advance_pct:'Аванс (%)',term_months:'Срок (мес.)',
+    calc_btn:'Рассчитать',client_btn:'Режим для клиента',
+    empty_hint:'Введите параметры и нажмите «Рассчитать»',
+    schedule_title:'График платежей',
+    print_btn:'🖨 Распечатать',exit_client:'← Назад',
+    lbl_desc:'Описание объекта',lbl_debt:'Долг лизинга',
+    lbl_advance:'Аванс',lbl_total:'Общая сумма оплаты',
+    lbl_discount:'Дисконт (внутренний)',internal_label:'ВНУТРЕННИЙ',
+    lbl_max_disc:'Макс. дисконт поставщика (UHM)',
+    lbl_client_fee:'Комиссия за оформление',
+    placeholder_max_disc:'Введите %',
+    print_subtitle:'График лизинговых платежей',
+    th_total:'Сумма платежа',th_balance:'Остаток долга'
+  },
+  uz:{
+    obj_desc:"Ob'ekt tavsifi",obj_price:"Ob'ekt narxi",
+    advance_pct:'Avans (%)',term_months:'Muddat (oy)',
+    calc_btn:'Hisoblash',client_btn:'Mijoz rejimi',
+    empty_hint:'Parametrlarni kiriting va "Hisoblash" ni bosing',
+    schedule_title:"To'lov jadvali",
+    print_btn:'🖨 Chop etish',exit_client:'← Orqaga',
+    lbl_desc:"Ob'ekt tavsifi",lbl_debt:'Lizing qarzi',
+    lbl_advance:'Avans',lbl_total:"Umumiy to'lov",
+    lbl_discount:'Diskont (ichki)',internal_label:'ICHKI',
+    lbl_max_disc:"Max. ta'minotchi diskonti (UHM)",
+    lbl_client_fee:'Rasmiylashtirishdan komissiya',
+    placeholder_max_disc:'% kiriting',
+    print_subtitle:"Lizing to'lov jadvali",
+    th_total:"To'lov miqdori",th_balance:"Qoldiq qarz"
+  },
+  en:{
+    obj_desc:'Object description',obj_price:'Object price',
+    advance_pct:'Advance (%)',term_months:'Term (months)',
+    calc_btn:'Calculate',client_btn:'Client mode',
+    empty_hint:'Enter parameters and click "Calculate"',
+    schedule_title:'Payment schedule',
+    print_btn:'🖨 Print',exit_client:'← Back',
+    lbl_desc:'Object description',lbl_debt:'Leasing debt',
+    lbl_advance:'Advance',lbl_total:'Total payment',
+    lbl_discount:'Discount (internal)',internal_label:'INTERNAL',
+    lbl_max_disc:'Max. supplier discount (UHM)',
+    lbl_client_fee:'Commission fee',
+    placeholder_max_disc:'Enter %',
+    print_subtitle:'Leasing payment schedule',
+    th_total:'Payment amount',th_balance:'Remaining debt'
+  }
 };
-
-function setLang(l){
-document.querySelectorAll('[data-i18n]').forEach(e=>{
-const k=e.dataset.i18n;
-if(i18n[l][k])e.tagName==="OPTION"?e.innerHTML=i18n[l][k]:e.textContent=i18n[l][k];
-});
-document.querySelectorAll('.lang-switch span').forEach(s=>s.classList.toggle('active',s.dataset.lang===l));
-localStorage.setItem('lang',l);
+let currentLang='ru';
+function t(k){return LANGS[currentLang][k]||k}
+ 
+function setLang(lang){
+  currentLang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.getAttribute('data-i18n')));
+  document.querySelectorAll('.lang-switcher a').forEach(a=>
+    a.classList.toggle('active',a.textContent===lang.toUpperCase()||(lang==='en'&&a.textContent==='ENG')));
+  const thMap={['th-total']:'th_total',['th-balance']:'th_balance'};
+  Object.entries(thMap).forEach(([id,key])=>{const el=document.getElementById(id);if(el)el.textContent=t(key)});
+  if(lastResult)renderResults(lastResult);
 }
-document.querySelectorAll('.lang-switch span').forEach(s=>s.onclick=()=>setLang(s.dataset.lang));
-setLang(localStorage.getItem('lang')||'ru');
-
-function exitClient(){
-  document.documentElement.classList.remove('client');
+ 
+/* ══════════════════════════════════
+   Форматирование чисел
+══════════════════════════════════ */
+function formatInput(el){
+  const r=el.value.replace(/[^\d]/g,'');
+  el.value=r?Number(r).toLocaleString('ru-RU'):'';
 }
-
-
-function insuranceRateSpecial(termMonths){
-  const BASE_RATE = 0.0008;
-  return termMonths * BASE_RATE / 12;
+function parseVal(s){
+  if(!s)return 0;
+  return parseFloat(String(s).replace(/[^\d.]/g,''))||0;
 }
-
-function n(v){return parseFloat(String(v).replace(/\s|\u00A0/g,'').replace(',','.'))||0}
-function f(x){x=Math.round(x*100)/100;let p=x.toString().split('.');p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,' ');return p.length===1?p[0]+'.00':p[1].length===1?p[0]+'.'+p[1]+'0':p.join('.')}
-
-function annuity(a,r,t){
-let bal=a,res=[],pay=a*(r*Math.pow(1+r,t))/(Math.pow(1+r,t)-1);
-for(let i=1;i<=t;i++){
-let intr=bal*r,pr=Math.min(bal,pay-intr);
-bal-=pr;
-res.push([i,pay,pr,intr,Math.max(0,bal)]);
+function fmt(n,dec=2){
+  if(n===null||n===undefined)return'—';
+  return Number(n.toFixed(dec)).toLocaleString('ru-RU',{minimumFractionDigits:dec,maximumFractionDigits:dec});
 }
-return res;
+function fmtPct(n){
+  return(n*100).toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
 }
-
-function annuityQuarterly(a,r,t){
-const base=annuity(a,r,t);
-let res=[],bal=a,accPay=0,accPr=0;
-for(let i=1;i<=t;i++){
-const intr=bal*r;
-accPay+=base[i-1][1];
-accPr+=base[i-1][2];
-if(i%3===0||i===t){
-bal-=accPr;
-res.push([i,accPay,accPr,intr,Math.max(0,bal)]);
-accPay=0;accPr=0;
-}else res.push([i,null,null,intr,bal]);
-}
-return res;
-}
-
-function declining(a,r,t,ratio){
-let ann=a*(r*Math.pow(1+r,t))/(Math.pow(1+r,t)-1);
-let first=ann*1.5,last=first/ratio,dec=t>1?(first-last)/(t-1):0,best=first,err=a;
-for(let it=0;it<200;it++){
-let bal=a,ok=true;
-for(let i=1;i<=t;i++){
-let cur=first-(i-1)*dec,intr=bal*r,pr=cur-intr;
-if(pr<=0){ok=false;break}
-bal-=pr;
-}
-if(ok){
-if(Math.abs(bal)<Math.abs(err)){err=bal;best=first}
-if(Math.abs(bal)<a*1e-6)break;
-first*=bal>0?1.001:0.999;
-}else first*=1.001;
-last=first/ratio;
-dec=t>1?(first-last)/(t-1):0;
-}
-first=best;last=first/ratio;dec=t>1?(first-last)/(t-1):0;
-let res=[],bal=a;
-for(let i=1;i<=t;i++){
-let pay=first-(i-1)*dec,intr=bal*r,pr;
-if(i===t){pr=bal;pay=pr+intr;bal=0}
-else{pr=pay-intr;if(pr<0)pr=0;if(pr>bal)pr=bal;bal-=pr}
-res.push([i,pay,pr,intr,Math.max(0,bal)]);
-}
-return res;
-}
-
-function linearQuarterly(a,r,t){
-let res=[],bal=a,q=Math.floor((t+2)/3),prQ=a/q;
-for(let i=1;i<=t;i++){
-let intr=bal*r;
-if(i%3===0||i===t){
-let pr=i===t?bal:prQ;
-let pay=pr+intr*3;
-bal-=pr;
-res.push([i,pay,pr,intr,Math.max(0,bal)]);
-}else res.push([i,null,null,intr,bal]);
-}
-return res;
-}
-
-function installment(a,t,quarter){
-let res=[],bal=a,per=a/t,acc=0;
-for(let i=1;i<=t;i++){
-let p=i===t?bal:per;bal-=p;
-if(quarter){
-acc+=p;
-if(i%3===0||i===t){res.push([i,acc,acc,0,Math.max(0,bal)]);acc=0}
-else res.push([i,null,null,null,null]);
-}else res.push([i,p,p,0,Math.max(0,bal)]);
-}
-return res;
-}
-
-
-function build(){
-let P=n(price.value),A=n(advance.value)/100,T=+term.value;
-let total=P+REG;
-let adv=total*A;
-let lease=total-adv;
-let margin=total*MARGIN_RATE;
-let insRate = insuranceRateSpecial(T);
-let insurance = P * insRate;
-
-let sch=[];
-switch(type.value){
-case"annuity":sch=annuity(lease,RATE,T);break;
-case"annuity_q":sch=annuityQuarterly(lease,RATE,T);break;
-case"decl2":sch=declining(lease,RATE,T,2);break;
-case"decl3":sch=declining(lease,RATE,T,3);break;
-case"linear_q":sch=linearQuarterly(lease,RATE,T);break;
-case"inst_m":sch=installment(lease,T,false);break;
-case"inst_q":sch=installment(lease,T,true);break;
-}
-
-let over=0;tbl.innerHTML="";
-sch.forEach(r=>{
-if(r[3])over+=r[3];
-tbl.innerHTML+=`<tr>
-<td>${r[0]}</td>
-<td>${r[1]!=null?f(r[1]):'-'}</td>
-<td>${r[2]!=null?f(r[2]):'-'}</td>
-<td>${r[3]!=null?f(r[3]):'-'}</td>
-<td>${r[4]!=null?f(r[4]):'-'}</td>
-</tr>`;
-});
-
-let flatRate = 0;
-
-if (!type.value.includes('inst')) { // не рассрочка
-  if (lease > 0 && T > 0) {
-    flatRate = over / (lease * (T / 12));
+ 
+/* ══════════════════════════════════
+   Математика
+══════════════════════════════════ */
+const TARGET_IRR=0.30, IRR_STEP=0.0001, DISC_STEP=0.0005, DISC_MAX=0.50;
+const REG_FEE=1000000; // регистрационный сбор — только внутренний расчёт, клиенту не показывается
+ 
+function ceilTo(v,s){return Math.ceil((v+s-1e-7)/s)*s}
+ 
+function calcNominalIRR(cfs){
+  let lo=-0.9999,hi=100,npvLo=0,npvHi=0;
+  for(let i=0;i<cfs.length;i++){
+    npvLo+=cfs[i]/Math.pow(1+lo,i);
+    npvHi+=cfs[i]/Math.pow(1+hi,i);
   }
-}
-
-outLease.textContent=f(lease);
-outAdvance.textContent=f(adv);
-outOver.textContent=f(over);
-outTotal.textContent=f(lease+over);
-outMargin.textContent=f(margin);
-outFull.textContent = f(adv + lease + over + margin);
-outMarginPct.textContent=(MARGIN_RATE*100).toFixed(2).replace('.',',')+'%';
-outIns.textContent = f(insurance);
-outInsPct.textContent = (insRate * 100).toFixed(2).replace('.', ',') + '%';
-outObject.textContent = objectName.value || "—";
-outFlat.textContent = (flatRate * 100).toFixed(2).replace('.', ',') + '%';
-
-
-}
-
-build();
-function fitToOnePagePrint() {
-  const wrap = document.querySelector('.scale-wrap');
-  if (!wrap) return;
-
-  wrap.style.transform = 'scale(1)';
-
-  const pageHeightPx = 1122; // ~ A4 при 96dpi
-  const rect = wrap.getBoundingClientRect();
-
-  if (rect.height > pageHeightPx) {
-    const scale = pageHeightPx / rect.height;
-    wrap.style.transform = `scale(${scale})`;
+  if(npvLo*npvHi>0)return -999;
+  let mid=0;
+  for(let it=0;it<300;it++){
+    mid=(lo+hi)/2;
+    let npv=0;
+    for(let i=0;i<cfs.length;i++)npv+=cfs[i]/Math.pow(1+mid,i);
+    if(Math.abs(npv)<0.01)break;
+    if(npv>0)lo=mid;else hi=mid;
   }
+  return mid*12;
 }
-
-window.addEventListener('beforeprint', fitToOnePagePrint);
-window.addEventListener('afterprint', () => {
-  const wrap = document.querySelector('.scale-wrap');
-  if (wrap) wrap.style.transform = 'scale(1)';
-});
-
-function toggleClient(){
-document.documentElement.classList.toggle('client');
+ 
+function buildCFs(price,advance,debt,term,disc){
+  const da=price*disc,vat=da*12/112;
+  const cf0=advance-(price-da+vat+REG_FEE);
+  const mp=debt/term;
+  const cfs=[cf0];
+  for(let i=1;i<=term;i++)cfs.push(mp);
+  return cfs;
 }
-  
-document.querySelectorAll('.currency-input input').forEach(i=>{
-  i.addEventListener('input',()=>{
-    const v = n(i.value);
-    if(v || i.value === '0'){
-      i.value = v.toLocaleString('ru-RU');
-    }
+ 
+/*
+  ══════════════════════════════════════════════════════════
+  ТАБЛИЦА ФИКСИРОВАННЫХ ДИСКОНТОВ
+  Формат: { term: <срок мес.>, adv: <аванс 0..1>, disc: <дисконт 0..1> }
+  Пример: срок 24 мес, аванс 50% → дисконт 14,25%
+  Добавляйте новые строки по мере необходимости.
+  ══════════════════════════════════════════════════════════
+*/
+const FIXED_DISCOUNTS=[
+  {term:24, adv:0.50, disc:0.1425},
+  // {term:12, adv:0.30, disc:0.XXXX},
+  // {term:36, adv:0.70, disc:0.XXXX},
+];
+ 
+function findDiscount(price,advance,debt,term,advPct){
+  for(const r of FIXED_DISCOUNTS)
+    if(r.term===term&&Math.abs(advPct-r.adv)<0.0001)return r.disc;
+  let d=DISC_STEP;
+  while(d<=DISC_MAX){
+    const irr=calcNominalIRR(buildCFs(price,advance,debt,term,d));
+    if(irr>0&&ceilTo(irr,IRR_STEP)>=TARGET_IRR)return ceilTo(d,0.0001);
+    d=Math.round((d+DISC_STEP)*1e6)/1e6;
+  }
+  return -1;
+}
+ 
+function buildSchedule(debt,term,discAmt){
+  // Маржа распределяется пропорционально остатку долга (убывающая база)
+  const totalMargin=discAmt*100/112;
+  const principalPerMonth=debt/term;
+  const sumBal=term*debt-principalPerMonth*(term*(term-1)/2);
+  const monthlyRate=sumBal>0?totalMargin/sumBal:0;
+  const rows=[];
+  let bal=debt,totP=0,totM=0,totT=0;
+  for(let j=1;j<=term;j++){
+    const principal=(j===term)?bal:principalPerMonth;
+    const margin=(j===term)?(totalMargin-totM):bal*monthlyRate;
+    const total=principal+margin;
+    const newBal=(j===term)?0:bal-principal;
+    totP+=principal;totM+=margin;totT+=total;
+    rows.push({num:j,total,principal,margin,balance:newBal<0.01?0:newBal});
+    bal=newBal<0.01?0:newBal;
+  }
+  rows._totals={principal:totP,margin:totM,total:totT};
+  return rows;
+}
+ 
+/* ══════════════════════════════════
+   Состояние и расчёт
+══════════════════════════════════ */
+let lastResult=null;
+ 
+function calculate(){
+  const price=parseVal(document.getElementById('price').value);
+  const advPct=parseVal(document.getElementById('advPct').value)/100;
+  const term=parseInt(document.getElementById('term').value)||0;
+  const desc=document.getElementById('objDesc').value.trim();
+ 
+  if(price<=0){alert('Введите стоимость объекта');return}
+  if(advPct<=0||advPct>=1){alert('Введите корректный аванс (1–99%)');return}
+  if(term<=0){alert('Введите срок');return}
+ 
+  const advance=price*advPct,debt=price-advance;
+  const foundDisc=findDiscount(price,advance,debt,term,advPct);
+  if(foundDisc<0){alert('Не удалось найти дисконт. Проверьте входные данные.');return}
+ 
+  const discAmt=price*foundDisc;
+  const vatOnDisc=discAmt*12/112;
+  const monthPay=debt/term;
+  const totalPay=advance+monthPay*term; // клиенту — без регистрационного сбора
+  const overpay=totalPay-price;
+  const schedule=buildSchedule(debt,term,discAmt);
+ 
+  lastResult={desc,price,advance,advPct,debt,term,foundDisc,discAmt,vatOnDisc,monthPay,totalPay,overpay,schedule};
+  renderResults(lastResult);
+}
+ 
+/* ══════════════════════════════════
+   Отрисовка экрана
+══════════════════════════════════ */
+function renderResults(r){
+  const mdInput=document.getElementById('maxDiscInput');
+  const mdPct=mdInput?parseVal(mdInput.value)/100:0;
+  const mdVal=mdInput?mdInput.value:'';
+  let clientFeePct=0,clientFeeAmt=0;
+  if(mdPct>0&&mdPct<r.foundDisc){
+    clientFeePct=r.foundDisc-mdPct;
+    clientFeeAmt=r.price*clientFeePct;
+  }
+ 
+  document.getElementById('resultCards').innerHTML=`
+    <div class="card" style="margin-bottom:12px">
+      <div class="results-grid">
+        ${r.desc?`<div class="result-cell full highlight">
+          <div class="cell-label">${t('lbl_desc')}</div>
+          <div class="cell-value" style="font-size:15px">${r.desc}</div>
+        </div>`:''}
+        <div class="result-cell">
+          <div class="cell-label">${t('lbl_debt')}</div>
+          <div class="cell-value">${fmt(r.debt)}</div>
+        </div>
+        <div class="result-cell">
+          <div class="cell-label">${t('lbl_advance')}</div>
+          <div class="cell-value">${fmt(r.advance)}</div>
+          <div class="cell-sub">${(r.advPct*100).toFixed(0)}%</div>
+        </div>
+        <div class="result-cell full">
+          <div class="cell-label">${t('lbl_total')}</div>
+          <div class="cell-value">${fmt(r.totalPay)}</div>
+        </div>
+        <div class="internal-row">
+          <div>
+            <div class="cell-label">${t('lbl_discount')}</div>
+            <div class="cell-value">${fmtPct(r.foundDisc)}</div>
+            <div class="cell-sub" style="color:#92400e">${fmt(r.discAmt)}</div>
+          </div>
+          <span class="internal-badge">${t('internal_label')}</span>
+        </div>
+        <div class="max-disc-row">
+          <div class="cell-label">${t('lbl_max_disc')}</div>
+          <div class="max-disc-input-row">
+            <div class="input-wrap" style="width:130px">
+              <input type="number" id="maxDiscInput" min="0" max="100" step="0.01"
+                placeholder="${t('placeholder_max_disc')}"
+                oninput="renderResults(lastResult)"
+                value="${mdVal}">
+              <span class="input-suffix">%</span>
+            </div>
+            <span class="max-disc-amt">${mdPct>0?fmt(r.price*mdPct):''}</span>
+          </div>
+        </div>
+        ${clientFeePct>0?`
+        <div class="client-fee-row">
+          <div>
+            <div class="cell-label">${t('lbl_client_fee')}</div>
+            <div class="cell-value">${fmtPct(clientFeePct)}</div>
+            <div class="cell-sub" style="color:#7c3aed">${fmt(clientFeeAmt)}</div>
+          </div>
+        </div>`:''}
+      </div>
+    </div>`;
+ 
+  // Таблица на экране
+  const tbody=document.getElementById('schedBody');
+  tbody.innerHTML='';
+  r.schedule.forEach(row=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${row.num}</td><td>${fmt(row.principal)}</td><td>${fmt(row.balance)}</td>`;
+    tbody.appendChild(tr);
   });
-});
+  const tot=r.schedule._totals;
+  document.getElementById('schedFoot').innerHTML=
+    `<tr><td><b>Итого</b></td><td>${fmt(tot.principal)}</td><td>—</td></tr>`;
+ 
+  document.getElementById('scheduleSection').style.display='block';
+  document.getElementById('actionBtns').classList.add('visible');
+  document.getElementById('screenSubtitle').textContent=
+    t('print_subtitle')+(r.desc?` — ${r.desc}`:'');
+}
+ 
+/* ══════════════════════════════════
+   Построение печатного документа
+══════════════════════════════════ */
+function buildPrintDoc(r,clientFeePct,clientFeeAmt){
+  const INSURANCE_PCT=0.0016;
+  const insuranceAmt=r.price*INSURANCE_PCT;
+  const commissionPct=clientFeePct>0?clientFeePct:0;
+  const commissionAmt=clientFeePct>0?clientFeeAmt:0;
+  const signingTotal=r.advance+(commissionAmt||0)+insuranceAmt;
+  const contractTotal=signingTotal+r.monthPay*r.term;
+ 
+  // Стоимость объекта + общая стоимость договора
+  document.getElementById('pdTop').innerHTML=`
+    <tr><td class="pt-lbl">Стоимость объекта</td><td class="pt-val">${fmt(r.price,2)}</td></tr>
+    <tr><td class="pt-lbl">Общая стоимость договора</td><td class="pt-val">${fmt(contractTotal,2)}</td></tr>`;
+ 
+  // Условия лизинга
+  document.getElementById('pdCond').innerHTML=`
+    <tr class="pd-cond-head"><td colspan="3">Условия лизинга</td></tr>
+    <tr><td class="pc-lbl">Тип графика платежей</td><td class="pc-mid"></td><td class="pc-val">Рассрочка</td></tr>
+    <tr class="pc-alt"><td class="pc-lbl">Срок</td><td class="pc-mid">Мес.</td><td class="pc-val">${r.term}</td></tr>
+    <tr><td class="pc-lbl">Авансовый платёж</td><td class="pc-mid">${(r.advPct*100).toFixed(0)}%</td><td class="pc-val">${fmt(r.advance,2)}</td></tr>
+    <tr class="pc-alt"><td class="pc-lbl">Комиссия за оформление</td><td class="pc-mid">${commissionPct>0?fmtPct(commissionPct):'0,00%'}</td><td class="pc-val">${commissionAmt>0?fmt(commissionAmt,2):'-'}</td></tr>
+    <tr><td class="pc-lbl">Страхование на весь срок</td><td class="pc-mid">0,16%</td><td class="pc-val">${fmt(insuranceAmt,2)}</td></tr>`;
+ 
+  // Общая сумма при подписании
+  document.getElementById('pdSign').innerHTML=`
+    <tr><td class="ps-lbl">Общая сумма к оплате при подписании:</td><td class="ps-val">${fmt(signingTotal,2)}</td></tr>`;
+ 
+  // Долг
+  document.getElementById('pdDebt').innerHTML=`
+    <tr><td class="pdl">Долг</td><td class="pdv">${fmt(r.debt,2)}</td></tr>`;
+ 
+  // График платежей
+  const pdBody=document.getElementById('pdSchedBody');
+  let rows=`<tr class="sched-sub">
+    <td></td>
+    <td>${fmt(r.debt,2)}</td>
+    <td>${fmt(r.debt,2)}</td>
+  </tr>`;
+  rows+=r.schedule.map(row=>`
+    <tr>
+      <td>${row.num}</td>
+      <td>${fmt(row.principal,0)}</td>
+      <td>${fmt(row.balance,0)}</td>
+    </tr>`).join('');
+  pdBody.innerHTML=rows;
+}
+ 
+/* ══════════════════════════════════
+   Режим для клиента и печать
+══════════════════════════════════ */
+function enterClientMode(){
+  if(!lastResult){alert('Сначала нажмите «Рассчитать»');return}
+  document.body.classList.add('client-mode');
+}
+function exitClientMode(){
+  document.body.classList.remove('client-mode');
+}
+ 
+function doPrint(){
+  if(!lastResult)return;
+  const mdInput=document.getElementById('maxDiscInput');
+  const mdPct=mdInput?parseVal(mdInput.value)/100:0;
+  let clientFeePct=0,clientFeeAmt=0;
+  if(mdPct>0&&mdPct<lastResult.foundDisc){
+    clientFeePct=lastResult.foundDisc-mdPct;
+    clientFeeAmt=lastResult.price*clientFeePct;
+  }
+  buildPrintDoc(lastResult,clientFeePct,clientFeeAmt);
+  setTimeout(()=>window.print(),100);
+}
 </script>
 </body>
 </html>
+ 
